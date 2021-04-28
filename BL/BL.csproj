@@ -55,7 +55,6 @@
     <Compile Include="Commands\Insert.cs" />
     <Compile Include="Commands\Select.cs" />
     <Compile Include="Commands\Update.cs" />
-    <Compile Include="Main.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Classroom.cs" />
     <Compile Include="Model\Equipment.cs" />
