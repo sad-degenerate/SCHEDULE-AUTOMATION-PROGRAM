@@ -5,8 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        
+        Title="Главное окно" Height="500" Width="1000">
     <Grid>
-        <Button x:Name="test" Width="50" Height="25" Content="Test" Click="test_Click"/>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+            <ColumnDefinition/>
+        </Grid.ColumnDefinitions>
+
+        <Button Margin="20 0 20 0" Grid.Column="0" Grid.Row="0" Content="Заполнить справочники" x:Name="btnFillingFileds" Click="btnFillingFileds_Click"/>
+        <Button Margin="20 0 20 0" Grid.Column="1" Grid.Row="0" Content="Ввести учебный план"/>
+        <Button Margin="20 0 20 0" Grid.Column="2" Grid.Row="0" Content="Предпочтения и ограничения"/>
+        <Button Margin="20 0 20 0" Grid.Column="3" Grid.Row="0" Content="Составить расписание"/>
     </Grid>
 </Window>

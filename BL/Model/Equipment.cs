@@ -14,8 +14,11 @@ namespace BL.Model
 
         public Equipment() { }
 
-        public Equipment(string name, int numberOfSeats)
+        public Equipment(List<object> list)
         {
+            var name = list[0].ToString();
+            var numberOfSeats = int.Parse(list[1].ToString());
+
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name), "Equipment's name is null.");
             if (numberOfSeats <= 0)
@@ -37,6 +40,11 @@ namespace BL.Model
             NumberOfSeats = numberOfSeats;
             Subjects = subjects;
             Classrooms = classrooms;
+        }
+
+        public override string ToString()
+        {
+            return $"{Name}";
         }
     }
 }

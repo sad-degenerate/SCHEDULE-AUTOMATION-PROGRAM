@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BL.Model
 {
@@ -13,13 +14,17 @@ namespace BL.Model
 
         public TeachersLoad() { }
 
-        public TeachersLoad(int teacherId, int subjectId, int load)
+        public TeachersLoad(List<object> list)
         {
+            var teacher = list[0] as Teacher;
+            var subject = list[1] as Subject;
+            var load = int.Parse(list[2].ToString());
+
             if (load <= 0)
                 throw new ArgumentException("TeachersLoad's load is less than zero.", nameof(load));
 
-            TeacherId = teacherId;
-            SubjectId = subjectId;
+            TeacherId = teacher.Id;
+            SubjectId = subject.Id;
             Load = load;
         }
 

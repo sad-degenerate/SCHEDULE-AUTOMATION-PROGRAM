@@ -1,68 +1,69 @@
 ﻿using BL.Model;
+using System.Collections.Generic;
 
 namespace BL.Commands
 {
     public static class Insert
     {
-        public static void Teacher(string name)
+        public static void Teacher(List<object> list)
         {
             using (var context = new MyDbContext())
             {
-                context.Teachers.Add(new Teacher(name));
+                context.Teachers.Add(new Teacher(list));
                 context.SaveChanges();
             }
         }
 
-        public static void Equipment(string name, int numberOfSeats)
+        public static void Equipment(List<object> list)
         {
             using (var context = new MyDbContext())
             {
-                context.Equipment.Add(new Equipment(name, numberOfSeats));
+                context.Equipment.Add(new Equipment(list));
                 context.SaveChanges();
             }
         }
 
-        public static void Subject(string name, int equipmentId)
+        public static void Subject(List<object> list)
         {
             using (var context = new MyDbContext())
             {
-                context.Subjects.Add(new Subject(name, equipmentId));
+                context.Subjects.Add(new Subject(list));
                 context.SaveChanges();
             }
         }
 
-        public static void GroupsLoad(int groupId, int subjectId, int load)
+        public static void GroupsLoad(List<object> list)
         {
             using (var context = new MyDbContext())
             {
-                context.GroupsLoads.Add(new GroupsLoad(groupId, subjectId, load));
+                context.GroupsLoads.Add(new GroupsLoad(list));
                 context.SaveChanges();
             }
         }
 
-        public static void TeachersLoad(int teacherId, int subjectId, int load)
+        public static void TeachersLoad(List<object> list)
         {
             using (var context = new MyDbContext())
             {
-                context.TeachersLoads.Add(new TeachersLoad(teacherId, subjectId, load));
+                context.TeachersLoads.Add(new TeachersLoad(list));
                 context.SaveChanges();
             }
         }
 
-        public static void Group(string name, int numberOfStudents)
+        public static void Group(List<object> list)
         {
             using (var context = new MyDbContext())
             {
-                context.Groups.Add(new Group(name, numberOfStudents));
+                context.Groups.Add(new Group(list));
                 context.SaveChanges();
             }
         }
 
-        public static void Classroom(string name, int equipmentId)
+        public static void Classroom(List<object> list)
         {
             using (var context = new MyDbContext())
             {
-                context.Classrooms.Add(new Classroom(name, equipmentId));
+                context.Classrooms.Add(new Classroom(list));
                 context.SaveChanges();
             }
         }

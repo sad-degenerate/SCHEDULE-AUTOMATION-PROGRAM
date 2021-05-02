@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BL.Model
 {
@@ -8,10 +9,15 @@ namespace BL.Model
         public string Name { get; set; }
         public int NumberOfStudents { get; set; }
 
+        //public virtual ICollection<Lesson> Lessons { get; set; }
+
         public Group() { }
 
-        public Group(string name, int numberOfStudents)
+        public Group(List<object> list)
         {
+            var name = list[0].ToString();
+            var numberOfStudents = int.Parse(list[1].ToString());
+
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name), "Group's name is null.");
             if (numberOfStudents <= 0)

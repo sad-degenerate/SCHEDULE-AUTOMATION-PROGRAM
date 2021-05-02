@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace BL.Model
 {
@@ -7,10 +8,14 @@ namespace BL.Model
         public int Id { get; set; }
         public string Name { get; set; }
 
+        //public virtual ICollection<Lesson> Lessons { get; set; }
+
         public Teacher() { }
 
-        public Teacher(string name)
+        public Teacher(List<object> list)
         {
+            var name = list[0].ToString();
+
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name), "Teacher's name is null.");
 

@@ -55,18 +55,30 @@
     <Compile Include="Commands\Insert.cs" />
     <Compile Include="Commands\Select.cs" />
     <Compile Include="Commands\Update.cs" />
+    <Compile Include="Data.cs" />
+    <Compile Include="Main.cs" />
+    <Compile Include="Migrations\202105020500476_tet.cs" />
+    <Compile Include="Migrations\202105020500476_tet.designer.cs">
+      <DependentUpon>202105020500476_tet.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Classroom.cs" />
     <Compile Include="Model\Equipment.cs" />
+    <Compile Include="Model\Lesson.cs" />
     <Compile Include="Model\Group.cs" />
     <Compile Include="Model\GroupsLoad.cs" />
+    <Compile Include="Model\LessonTime.cs" />
     <Compile Include="Model\Subject.cs" />
     <Compile Include="Model\Teacher.cs" />
     <Compile Include="Model\TeachersLoad.cs" />
     <Compile Include="MyDbContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202105020500476_tet.resx">
+      <DependentUpon>202105020500476_tet.cs</DependentUpon>
+    </EmbeddedResource>
+  </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
