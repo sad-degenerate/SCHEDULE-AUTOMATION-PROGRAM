@@ -17,7 +17,8 @@ namespace BL.Model
         public Equipment(List<object> list)
         {
             var name = list[0].ToString();
-            var numberOfSeats = int.Parse(list[1].ToString());
+            if (!int.TryParse(list[1].ToString(), out int numberOfSeats))
+                throw new ArgumentException("Вы ввели не число!", nameof(numberOfSeats));
 
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name), "Equipment's name is null.");

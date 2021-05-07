@@ -5,7 +5,7 @@ namespace BL.Commands
 {
     public static class Insert
     {
-        public static void Teacher(List<object> list)
+        public static void Teachers(List<object> list)
         {
             using (var context = new MyDbContext())
             {
@@ -23,7 +23,7 @@ namespace BL.Commands
             }
         }
 
-        public static void Subject(List<object> list)
+        public static void Subjects(List<object> list)
         {
             using (var context = new MyDbContext())
             {
@@ -50,7 +50,7 @@ namespace BL.Commands
             }
         }
 
-        public static void Group(List<object> list)
+        public static void Groups(List<object> list)
         {
             using (var context = new MyDbContext())
             {
@@ -59,7 +59,7 @@ namespace BL.Commands
             }
         }
 
-        public static void Classroom(List<object> list)
+        public static void Classrooms(List<object> list)
         {
             using (var context = new MyDbContext())
             {

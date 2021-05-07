@@ -16,7 +16,8 @@ namespace BL.Model
         public Group(List<object> list)
         {
             var name = list[0].ToString();
-            var numberOfStudents = int.Parse(list[1].ToString());
+            if (!int.TryParse(list[1].ToString(), out int numberOfStudents))
+                throw new ArgumentException("Вы ввели не число!", nameof(numberOfStudents));
 
             if (string.IsNullOrWhiteSpace(name))
                 throw new ArgumentNullException(nameof(name), "Group's name is null.");

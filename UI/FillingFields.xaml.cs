@@ -72,7 +72,7 @@ namespace UI
 
         private void TeachersAdd(object sender, EventArgs e)
         {
-            Insert.Teacher(CreateList());
+            Insert.Teachers(CreateList());
         }
 
         private void Classrooms()
@@ -85,7 +85,44 @@ namespace UI
 
         private void ClassroomsAdd(object sender, EventArgs e)
         {
-            Insert.Classroom(CreateList());
+            Insert.Classrooms(CreateList());
+        }
+
+        private void Equipment()
+        {
+            AddTextBox("Название:");
+
+            AddTextBox("Количество сидений:");
+        }
+
+        private void EquipmentAdd(object sender, EventArgs e)
+        {
+            Insert.Equipment(CreateList());
+        }
+
+        private void Groups()
+        {
+            AddTextBox("Название:");
+
+            AddTextBox("Количество учеников:");
+        }
+
+        private void GroupsAdd(object sender, EventArgs e)
+        {
+            Insert.Groups(CreateList());
+        }
+
+        private void Subjects()
+        {
+            AddTextBox("Название:");
+
+            var box = new NewComboBox<Equipment>();
+            AddComboBox(box.CreateComboBox(Select.Equipment()), "Оборудование: ");
+        }
+
+        private void SubjectsAdd(object sender, EventArgs e)
+        {
+            Insert.Subjects(CreateList());
         }
 
         private void treeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -112,6 +149,21 @@ namespace UI
                 case "Classrooms":
                     Classrooms();
                     res.Click += ClassroomsAdd;
+                    break;
+
+                case "Equipment":
+                    Equipment();
+                    res.Click += EquipmentAdd;
+                    break;
+
+                case "Groups":
+                    Groups();
+                    res.Click += GroupsAdd;
+                    break;
+
+                case "Subjects":
+                    Subjects();
+                    res.Click += SubjectsAdd;
                     break;
 
                 default:
