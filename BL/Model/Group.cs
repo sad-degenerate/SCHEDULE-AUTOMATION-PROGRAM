@@ -9,7 +9,7 @@ namespace BL.Model
         public string Name { get; set; }
         public int NumberOfStudents { get; set; }
 
-        //public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<Lesson> Lessons { get; set; }
 
         public Group() { }
 

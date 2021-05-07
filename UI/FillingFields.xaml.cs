@@ -26,6 +26,11 @@ namespace UI
         {
             InitializeComponent();
 
+            // TODO: Переписать.
+
+            // Подключение к базе данных в начале
+            var s = Select.Equipment();
+
             treeView.ItemsSource = Data.Classes;
         }
 
@@ -125,6 +130,16 @@ namespace UI
             Insert.Subjects(CreateList());
         }
 
+        private void LessonTimeAdd(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+
+        private void LessonTime()
+        {
+            throw new NotImplementedException();
+        }
+
         private void treeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             labelsPanel.Children.Clear();
@@ -164,6 +179,11 @@ namespace UI
                 case "Subjects":
                     Subjects();
                     res.Click += SubjectsAdd;
+                    break;
+
+                case "Lesson time":
+                    LessonTime();
+                    res.Click += LessonTimeAdd;
                     break;
 
                 default:

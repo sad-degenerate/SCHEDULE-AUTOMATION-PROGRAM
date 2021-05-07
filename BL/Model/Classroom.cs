@@ -11,7 +11,7 @@ namespace BL.Model
         public int EquipmentId { get; set; }
         public virtual Equipment Equipment { get; set; }
 
-        //public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<Lesson> Lessons { get; set; }
 
         public Classroom() { }
 

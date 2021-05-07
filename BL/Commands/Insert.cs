@@ -32,6 +32,24 @@ namespace BL.Commands
             }
         }
 
+        public static void Lessons(List<object> list)
+        {
+            using (var context = new MyDbContext())
+            {
+                context.Lessons.Add(new Lesson(list));
+                context.SaveChanges();
+            }
+        }
+
+        public static void LessonTimes(List<object> list)
+        {
+            using (var context = new MyDbContext())
+            {
+                context.LessonTimes.Add(new LessonTime(list));
+                context.SaveChanges();
+            }
+        }
+
         public static void GroupsLoad(List<object> list)
         {
             using (var context = new MyDbContext())

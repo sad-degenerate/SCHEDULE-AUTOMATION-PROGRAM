@@ -7,13 +7,13 @@ namespace BL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class tet : IMigrationMetadata
+    public sealed partial class lesson : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(tet));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(lesson));
         
         string IMigrationMetadata.Id
         {
-            get { return "202105020500476_tet"; }
+            get { return "202105070728049_lesson"; }
         }
         
         string IMigrationMetadata.Source

@@ -14,6 +14,24 @@ namespace BL.Commands
             }
         }
 
+        public static void Lesson(List<Lesson> lessons)
+        {
+            using (var context = new MyDbContext())
+            {
+                context.Lessons.RemoveRange(lessons);
+                context.SaveChanges();
+            }
+        }
+
+        public static void LessonTime(List<LessonTime> lessonTimes)
+        {
+            using (var context = new MyDbContext())
+            {
+                context.LessonTimes.RemoveRange(lessonTimes);
+                context.SaveChanges();
+            }
+        }
+
         public static void Group(List<Group> groups)
         {
             using (var context = new MyDbContext())

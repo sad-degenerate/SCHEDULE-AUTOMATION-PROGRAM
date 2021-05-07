@@ -11,6 +11,7 @@ namespace BL
             "Equipment",
             "Groups",
             "Subjects",
+            "Lesson time"
         };
     }
 }

@@ -23,6 +23,42 @@ namespace BL.Commands
             return result;
         }
 
+        public static List<Lesson> Lessons()
+        {
+            var result = new List<Lesson>();
+
+            using (var context = new MyDbContext())
+            {
+                var lessons = context.Lessons;
+
+                foreach (var lesson in lessons)
+                {
+                    var newLesson = new Lesson(lesson.Id, lesson.SubjectId, lesson.TeacherId, lesson.GroupId, lesson.LessonTimeId);
+                    result.Add(newLesson);
+                }
+            }
+
+            return result;
+        }
+
+        public static List<LessonTime> LessonTimes()
+        {
+            var result = new List<LessonTime>();
+
+            using (var context = new MyDbContext())
+            {
+                var lessonTimes = context.LessonTimes;
+
+                foreach (var lessonTime in lessonTimes)
+                {
+                    var newLessonTime = new LessonTime(lessonTime.Id, lessonTime.Start, lessonTime.End);
+                    result.Add(newLessonTime);
+                }
+            }
+
+            return result;
+        }
+
         public static List<Equipment> Equipment()
         {
             var result = new List<Equipment>();

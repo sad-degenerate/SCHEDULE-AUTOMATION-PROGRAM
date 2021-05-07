@@ -14,5 +14,7 @@ namespace BL
         public DbSet<Teacher> Teachers { get; set; }
         public DbSet<Group> Groups { get; set; }
         public DbSet<Classroom> Classrooms { get; set; }
+        public DbSet<LessonTime> LessonTimes { get; set; }
+        public DbSet<Lesson> Lessons { get; set; }
     }
 }

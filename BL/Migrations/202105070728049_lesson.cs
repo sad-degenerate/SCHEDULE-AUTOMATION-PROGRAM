@@ -3,7 +3,7 @@
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class tet : DbMigration
+    public partial class lesson : DbMigration
     {
         public override void Up()
         {
@@ -19,11 +19,11 @@
                         ClassroomId = c.Int(nullable: false),
                     })
                 .PrimaryKey(t => t.Id)
-                .ForeignKey("dbo.Classrooms", t => t.ClassroomId, cascadeDelete: true)
-                .ForeignKey("dbo.Groups", t => t.GroupId, cascadeDelete: true)
-                .ForeignKey("dbo.LessonTimes", t => t.LessonTimeId, cascadeDelete: true)
-                .ForeignKey("dbo.Subjects", t => t.SubjectId, cascadeDelete: true)
-                .ForeignKey("dbo.Teachers", t => t.TeacherId, cascadeDelete: true)
+                .ForeignKey("dbo.Classrooms", t => t.ClassroomId, cascadeDelete: false)
+                .ForeignKey("dbo.Groups", t => t.GroupId, cascadeDelete: false)
+                .ForeignKey("dbo.LessonTimes", t => t.LessonTimeId, cascadeDelete: false)
+                .ForeignKey("dbo.Subjects", t => t.SubjectId, cascadeDelete: false)
+                .ForeignKey("dbo.Teachers", t => t.TeacherId, cascadeDelete: false)
                 .Index(t => t.SubjectId)
                 .Index(t => t.TeacherId)
                 .Index(t => t.GroupId)
