@@ -10,10 +10,7 @@ namespace BL
             "Classrooms",
             "Equipment",
             "Groups",
-            "GroupsLoad",
-            "LessonsTime",
             "Subjects",
-            "TeachersLoad"
         };
     }
 }

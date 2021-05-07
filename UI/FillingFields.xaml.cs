@@ -29,56 +29,63 @@ namespace UI
             treeView.ItemsSource = Data.Classes;
         }
 
+        private void AddLabel(string text)
+        {
+            var block = new TextBlock();
+            block.Text = text;
+            labelsPanel.Children.Add(block);
+        }
+
+        private void AddTextBox(string lblText)
+        {
+            AddLabel(lblText);
+
+            textBoxPanel.Children.Add(new TextBox());
+        }
+
+        private void AddComboBox(ComboBox box, string lblText)
+        {
+            textBoxPanel.Children.Add(box);
+
+            AddLabel(lblText);
+        }
+
+        private List<object> CreateList()
+        {
+            var list = new List<object>();
+
+            foreach (var el in textBoxPanel.Children)
+            {
+                if (el is TextBox)
+                    list.Add(((TextBox)el).Text);
+                else if (el is ComboBox)
+                    list.Add(((ComboBox)el).SelectedItem);
+            }
+
+            return list;
+        }
+
         private void Teachers()
         {
-            var name = new TextBlock();
-            name.Text = "ФИО учителя:";
-            labelsPanel.Children.Add(name);
-            textBoxPanel.Children.Add(new TextBox());
+            AddTextBox("ФИО учителя:");
         }
 
         private void TeachersAdd(object sender, EventArgs e)
         {
-            var list = new List<object>();
-
-            foreach (var el in textBoxPanel.Children)
-            {
-                if (el is TextBox)
-                    list.Add(((TextBox)el).Text);
-            }
-
-            Insert.Teacher(list);
+            Insert.Teacher(CreateList());
         }
 
         private void Classrooms()
         {
-            var name = new TextBlock();
-            name.Text = "Название аудитории:";
-            labelsPanel.Children.Add(name);
-            textBoxPanel.Children.Add(new TextBox());
-
-            var equipment = Select.Equipment();
-            var comboBox = new ComboBox();
-            comboBox.ItemsSource = equipment;
-            textBoxPanel.Children.Add(comboBox);
-            var equipmentLabel = new TextBlock();
-            equipmentLabel.Text = "Оборудование:";
-            labelsPanel.Children.Add(equipmentLabel);
+            AddTextBox("Название аудитории:");
+            
+            var box = new NewComboBox<Equipment>();
+            AddComboBox(box.CreateComboBox(Select.Equipment()), "Оборудование:");
         }
 
         private void ClassroomsAdd(object sender, EventArgs e)
         {
-            var list = new List<object>();
-
-            foreach (var el in textBoxPanel.Children)
-            {
-                if (el is TextBox)
-                    list.Add(((TextBox)el).Text);
-                else
-                    list.Add(el);
-            }
-
-            Insert.Classroom(list);
+            Insert.Classroom(CreateList());
         }
 
         private void treeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
