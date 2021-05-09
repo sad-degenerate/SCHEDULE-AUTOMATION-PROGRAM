@@ -10,6 +10,15 @@
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
     <Grid x:Name="mainGrid">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="2*"/>
+        </Grid.ColumnDefinitions>
 
+        <TreeView x:Name="treeView" Grid.Column="0" Style="{StaticResource MaterialDesignTreeView}" SelectedItemChanged="treeView_SelectedItemChanged" FontSize="20"/>
+
+        <Grid Grid.Column="1">
+            <StackPanel x:Name="panel" Grid.Column="0"/>
+        </Grid>
     </Grid>
 </Page>

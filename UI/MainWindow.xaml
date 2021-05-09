@@ -19,12 +19,16 @@
             <RowDefinition Height="10*"/>
         </Grid.RowDefinitions>
 
-        <Button Margin="20 0 20 0" Grid.Column="0" Grid.Row="0" Content="Заполнить справочники" 
-                x:Name="btnFillingFileds" Click="btnFillingFileds_Click"/>
-        <Button Margin="20 0 20 0" Grid.Column="1" Grid.Row="0" Content="Ввести учебный план" 
-                x:Name="btnInputSyllabus" Click="btnInputSyllabus_Click"/>
-        <Button Margin="20 0 20 0" Grid.Column="2" Grid.Row="0" Content="Предпочтения и ограничения"/>
-        <Button Margin="20 0 20 0" Grid.Column="3" Grid.Row="0" Content="Составить расписание"/>
+        <Button Grid.Column="0" Grid.Row="0" Content="Заполнить справочники" 
+                x:Name="btnFillingFileds" Click="btnFillingFileds_Click"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Button Grid.Column="1" Grid.Row="0" Content="Ввести учебный план" 
+                x:Name="btnInputSyllabus" Click="btnInputSyllabus_Click"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Button Grid.Column="2" Grid.Row="0" Content="Предпочтения и ограничения"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
+        <Button Grid.Column="3" Grid.Row="0" Content="Составить расписание"
+                HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
 
         <Frame Grid.Column="0" Grid.ColumnSpan="4" Grid.Row="1"
                Content="{Binding CurrentPage}" NavigationUIVisibility="Hidden"

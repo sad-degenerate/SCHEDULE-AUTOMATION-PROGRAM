@@ -113,6 +113,24 @@ namespace BL.Commands
             return result;
         }
 
+        public static List<GroupsLoad> GroupsLoads()
+        {
+            var result = new List<GroupsLoad>();
+
+            using (var context = new MyDbContext())
+            {
+                var groupsLoads = context.GroupsLoads;
+
+                foreach (var groupLoad in groupsLoads)
+                {
+                    var newGroupLoad = new GroupsLoad(groupLoad.Id, groupLoad.Group, groupLoad.Subject, groupLoad.Load);
+                    result.Add(newGroupLoad);
+                }
+            }
+
+            return result;
+        }
+
         public static List<Classroom> Classrooms()
         {
             var result = new List<Classroom>();

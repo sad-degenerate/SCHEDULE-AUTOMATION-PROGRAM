@@ -1,5 +1,5 @@
 ﻿using BL.Commands;
-using System.Linq;
+using System.Collections.Generic;
 using System.Windows.Controls;
 
 
@@ -15,18 +15,22 @@ namespace UI.Pages
             InitializeComponent();
 
             var groups = Select.Groups();
-            var subjects = Select.Subjects();
+            var textGroups = new List<string>();
 
-            for (var i = 0; i < groups.Count(); i++)
-                mainGrid.ColumnDefinitions.Add(new ColumnDefinition());
-            for (var i = 0; i < subjects.Count(); i++)
-                mainGrid.RowDefinitions.Add(new RowDefinition());
+            foreach (var group in groups)
+                textGroups.Add(group.Name);
 
+            treeView.ItemsSource = textGroups;
+        }
+
+        private void treeView_SelectedItemChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
+        {
             
 
-            
+            switch (treeView.SelectedItem.ToString())
+            {
 
-            mainGrid.ShowGridLines = true;
+            }
         }
     }
 }
