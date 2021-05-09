@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Windows.Controls;
-using UI;
+using UI.Pages;
 
 public class NewComboBox<T> : FillingFields
 {

@@ -1,35 +1,22 @@
 ﻿using BL;
 using BL.Commands;
 using BL.Model;
+using MaterialDesignThemes.Wpf;
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
-namespace UI
+namespace UI.Pages
 {
     /// <summary>
     /// Логика взаимодействия для FillingFields.xaml
     /// </summary>
-    public partial class FillingFields : Window
+    public partial class FillingFields : Page
     {
         public FillingFields()
         {
             InitializeComponent();
-
-            // TODO: Переписать.
-
-            // Подключение к базе данных в начале
-            var s = Select.Equipment();
 
             treeView.ItemsSource = Data.Classes;
         }
@@ -55,6 +42,14 @@ namespace UI
             AddLabel(lblText);
         }
 
+        private void AddTimePicker(string lblText)
+        {
+            var time = new TimePicker();
+            textBoxPanel.Children.Add(time);
+
+            AddLabel(lblText);
+        }
+
         private List<object> CreateList()
         {
             var list = new List<object>();
@@ -65,6 +60,8 @@ namespace UI
                     list.Add(((TextBox)el).Text);
                 else if (el is ComboBox)
                     list.Add(((ComboBox)el).SelectedItem);
+                else if (el is TimePicker)
+                    list.Add(((TimePicker)el).SelectedTime.Value);
             }
 
             return list;
@@ -83,7 +80,7 @@ namespace UI
         private void Classrooms()
         {
             AddTextBox("Название аудитории:");
-            
+
             var box = new NewComboBox<Equipment>();
             AddComboBox(box.CreateComboBox(Select.Equipment()), "Оборудование:");
         }
@@ -132,12 +129,13 @@ namespace UI
 
         private void LessonTimeAdd(object sender, RoutedEventArgs e)
         {
-            throw new NotImplementedException();
+            Insert.LessonTimes(CreateList());
         }
 
         private void LessonTime()
         {
-            throw new NotImplementedException();
+            AddTimePicker("Начало:");
+            AddTimePicker("Конец:");
         }
 
         private void treeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -147,7 +145,7 @@ namespace UI
 
             var res = new Button();
             res.VerticalAlignment = VerticalAlignment.Bottom;
-            
+
             var marg = res.Margin;
             marg.Bottom = -200;
             res.Margin = marg;

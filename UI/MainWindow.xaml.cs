@@ -1,17 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using BL.Commands;
+using System;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
+using UI.Pages;
 
 namespace UI
 {
@@ -23,17 +13,19 @@ namespace UI
         public MainWindow()
         {
             InitializeComponent();
+
+            // TODO: Переписать.
+            var s = Select.Subjects();
         }
 
         private void btnFillingFileds_Click(object sender, RoutedEventArgs e)
         {
-            var window = new FillingFields();
-            window.Show();
+            MainFrame.Content = new FillingFields();
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void btnInputSyllabus_Click(object sender, RoutedEventArgs e)
         {
-            Environment.Exit(0);
+            MainFrame.Content = new Syllabus();
         }
     }
 }
