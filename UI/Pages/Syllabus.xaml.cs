@@ -1,5 +1,6 @@
 ﻿using BL.Commands;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Controls;
 
 
@@ -25,11 +26,14 @@ namespace UI.Pages
 
         private void treeView_SelectedItemChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
         {
-            
+            var groupsLoads = Select.GroupsLoads().Where(g => g.Group.Name == treeView.SelectedItem.ToString());
 
-            switch (treeView.SelectedItem.ToString())
+            foreach (var load in groupsLoads)
             {
+                var box = new TextBox();
+                box.Text = $"{load.Subject.Name} - {load.Load} часов";
 
+                panel.Children.Add(box);
             }
         }
     }

@@ -1,5 +1,6 @@
 ﻿using BL.Model;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace BL.Commands
 {
@@ -7,146 +8,74 @@ namespace BL.Commands
     {
         public static List<Teacher> Teachers()
         {
-            var result = new List<Teacher>();
-
             using (var context = new MyDbContext())
             {
-                var teachers = context.Teachers;
-
-                foreach (var teacher in teachers)
-                {
-                    var newTeacher = new Teacher(teacher.Id, teacher.Name);
-                    result.Add(newTeacher);
-                }
+                var teachers = context.Teachers.ToList();
+                return teachers;
             }
-
-            return result;
         }
 
         public static List<Lesson> Lessons()
         {
-            var result = new List<Lesson>();
-
             using (var context = new MyDbContext())
             {
-                var lessons = context.Lessons;
-
-                foreach (var lesson in lessons)
-                {
-                    var newLesson = new Lesson(lesson.Id, lesson.SubjectId, lesson.TeacherId, lesson.GroupId, lesson.LessonTimeId);
-                    result.Add(newLesson);
-                }
+                var lessons = context.Lessons.ToList();
+                return lessons;
             }
-
-            return result;
         }
 
         public static List<LessonTime> LessonTimes()
         {
-            var result = new List<LessonTime>();
-
             using (var context = new MyDbContext())
             {
-                var lessonTimes = context.LessonTimes;
-
-                foreach (var lessonTime in lessonTimes)
-                {
-                    var newLessonTime = new LessonTime(lessonTime.Id, lessonTime.Start, lessonTime.End);
-                    result.Add(newLessonTime);
-                }
+                var lessonTimes = context.LessonTimes.ToList();
+                return lessonTimes;
             }
-
-            return result;
         }
 
         public static List<Equipment> Equipment()
         {
-            var result = new List<Equipment>();
-
             using (var context = new MyDbContext())
             {
-                var equipmentCollection = context.Equipment;
-
-                foreach (var equipment in equipmentCollection)
-                {
-                    var newEquipment = new Equipment(equipment.Id, equipment.Name, equipment.NumberOfSeats, equipment.Subjects, equipment.Classrooms);
-                    result.Add(newEquipment);
-                }
+                var equipment = context.Equipment.ToList();
+                return equipment;
             }
-
-            return result;
         }
 
         public static List<Subject> Subjects()
         {
-            var result = new List<Subject>();
-
             using (var context = new MyDbContext())
             {
-                var subjects = context.Subjects;
-
-                foreach (var subject in subjects)
-                {
-                    var newSubject = new Subject(subject.Id, subject.Name, subject.Equipment);
-                    result.Add(newSubject);
-                }
+                var subjects = context.Subjects.ToList();
+                return subjects;
             }
-
-            return result;
         }
 
         public static List<Group> Groups()
         {
-            var result = new List<Group>();
-
             using (var context = new MyDbContext())
             {
-                var groups = context.Groups;
-
-                foreach (var group in groups)
-                {
-                    var newGroup = new Group(group.Id, group.Name, group.NumberOfStudents);
-                    result.Add(newGroup);
-                }
+                var groups = context.Groups.ToList();
+                return groups;
             }
-
-            return result;
         }
 
         public static List<GroupsLoad> GroupsLoads()
         {
-            var result = new List<GroupsLoad>();
-
             using (var context = new MyDbContext())
             {
-                var groupsLoads = context.GroupsLoads;
-
-                foreach (var groupLoad in groupsLoads)
-                {
-                    var newGroupLoad = new GroupsLoad(groupLoad.Id, groupLoad.Group, groupLoad.Subject, groupLoad.Load);
-                    result.Add(newGroupLoad);
-                }
+                var groupsLoads = context.GroupsLoads.ToList();
+                return groupsLoads;
             }
-
-            return result;
         }
 
         public static List<Classroom> Classrooms()
         {
-            var result = new List<Classroom>();
-
             using (var context = new MyDbContext())
             {
-                var classrooms = context.Classrooms;
-
-                foreach (var classroom in classrooms)
-                {
-                    var newClassroom = new Classroom(classroom.Id, classroom.Name, classroom.Equipment);
-                    result.Add(newClassroom);
-                }
+                var classrooms = context.Classrooms.ToList();
+                return classrooms;
             }
-
-            return result;
         }
     }
 }
