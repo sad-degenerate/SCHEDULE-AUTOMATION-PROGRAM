@@ -26,6 +26,8 @@ namespace UI.Pages
 
         private void treeView_SelectedItemChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
         {
+            panel.Children.Clear();
+
             var groupsLoads = Select.GroupsLoads().Where(g => g.Group.Name == treeView.SelectedItem.ToString());
 
             foreach (var load in groupsLoads)

@@ -1,5 +1,6 @@
 ﻿using BL.Model;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 
 namespace BL.Commands
@@ -19,7 +20,9 @@ namespace BL.Commands
         {
             using (var context = new MyDbContext())
             {
-                var lessons = context.Lessons.ToList();
+                var lessons = context.Lessons.Include(x => x.Group)
+                    .Include(x => x.LessonTime).Include(x => x.Subject)
+                    .Include(x => x.Teacher).ToList();
                 return lessons;
             }
         }
@@ -46,7 +49,7 @@ namespace BL.Commands
         {
             using (var context = new MyDbContext())
             {
-                var subjects = context.Subjects.ToList();
+                var subjects = context.Subjects.Include(x => x.Equipment).ToList();
                 return subjects;
             }
         }
@@ -64,7 +67,7 @@ namespace BL.Commands
         {
             using (var context = new MyDbContext())
             {
-                var groupsLoads = context.GroupsLoads.ToList();
+                var groupsLoads = context.GroupsLoads.Include(x => x.Group).Include(x => x.Subject).ToList();
                 return groupsLoads;
             }
         }
@@ -73,7 +76,7 @@ namespace BL.Commands
         {
             using (var context = new MyDbContext())
             {
-                var classrooms = context.Classrooms.ToList();
+                var classrooms = context.Classrooms.Include(x => x.Equipment).ToList();
                 return classrooms;
             }
         }
