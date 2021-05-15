@@ -26,17 +26,10 @@ namespace UI.Pages
 
         private void treeView_SelectedItemChanged(object sender, System.Windows.RoutedPropertyChangedEventArgs<object> e)
         {
-            panel.Children.Clear();
+            textBoxPanel.Children.Clear();
+            labelsPanel.Children.Clear();
 
-            var groupsLoads = Select.GroupsLoads().Where(g => g.Group.Name == treeView.SelectedItem.ToString());
-
-            foreach (var load in groupsLoads)
-            {
-                var box = new TextBox();
-                box.Text = $"{load.Subject.Name} - {load.Load} часов";
-
-                panel.Children.Add(box);
-            }
+            dataGrid.ItemsSource = Select.GroupsLoads().Where(g => g.Group.Name == treeView.SelectedItem.ToString());
         }
     }
 }

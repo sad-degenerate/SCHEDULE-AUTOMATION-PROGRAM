@@ -9,7 +9,7 @@
       Title="Syllabus"
       xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
 
-    <Grid x:Name="mainGrid">
+    <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1*"/>
             <ColumnDefinition Width="2*"/>
@@ -18,7 +18,18 @@
         <TreeView x:Name="treeView" Grid.Column="0" Style="{StaticResource MaterialDesignTreeView}" SelectedItemChanged="treeView_SelectedItemChanged" FontSize="20"/>
 
         <Grid Grid.Column="1">
-            <StackPanel x:Name="panel" Grid.Column="0"/>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="5*"/>
+                <ColumnDefinition Width="7*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+
+            <StackPanel x:Name="labelsPanel" Grid.Column="0"/>
+            <StackPanel x:Name="textBoxPanel" Grid.Column="1"/>
+            <DataGrid x:Name="dataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True"/>
         </Grid>
     </Grid>
 </Page>

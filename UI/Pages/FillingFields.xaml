@@ -22,9 +22,14 @@
                 <ColumnDefinition Width="5*"/>
                 <ColumnDefinition Width="7*"/>
             </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
 
             <StackPanel x:Name="labelsPanel" Grid.Column="0"/>
             <StackPanel x:Name="textBoxPanel" Grid.Column="1"/>
+            <DataGrid x:Name="dataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True"/>
         </Grid>
     </Grid>
 </Page>

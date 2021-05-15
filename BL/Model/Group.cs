@@ -39,5 +39,10 @@ namespace BL.Model
             Name = name;
             NumberOfStudents = numberOfStudents;
         }
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }

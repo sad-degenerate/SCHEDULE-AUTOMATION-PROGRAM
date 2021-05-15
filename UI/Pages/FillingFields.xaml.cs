@@ -25,6 +25,10 @@ namespace UI.Pages
         {
             var block = new TextBlock();
             block.Text = text;
+            var marg = block.Margin;
+            marg.Left = 10;
+            marg.Top = 5;
+            block.Margin = marg;
             labelsPanel.Children.Add(block);
         }
 
@@ -74,7 +78,14 @@ namespace UI.Pages
 
         private void TeachersAdd(object sender, EventArgs e)
         {
-            Insert.Teachers(CreateList());
+            try
+            {
+                Insert.Teachers(CreateList());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void Classrooms()
@@ -87,7 +98,14 @@ namespace UI.Pages
 
         private void ClassroomsAdd(object sender, EventArgs e)
         {
-            Insert.Classrooms(CreateList());
+            try
+            {
+                Insert.Classrooms(CreateList());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            } 
         }
 
         private void Equipment()
@@ -99,7 +117,14 @@ namespace UI.Pages
 
         private void EquipmentAdd(object sender, EventArgs e)
         {
-            Insert.Equipment(CreateList());
+            try
+            {
+                Insert.Equipment(CreateList());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }      
         }
 
         private void Groups()
@@ -111,7 +136,14 @@ namespace UI.Pages
 
         private void GroupsAdd(object sender, EventArgs e)
         {
-            Insert.Groups(CreateList());
+            try
+            {
+                Insert.Groups(CreateList());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void Subjects()
@@ -124,12 +156,26 @@ namespace UI.Pages
 
         private void SubjectsAdd(object sender, EventArgs e)
         {
-            Insert.Subjects(CreateList());
+            try
+            {
+                Insert.Subjects(CreateList());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void LessonTimeAdd(object sender, RoutedEventArgs e)
         {
-            Insert.LessonTimes(CreateList());
+            try
+            {
+                Insert.LessonTimes(CreateList());
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
         private void LessonTime()
@@ -147,7 +193,7 @@ namespace UI.Pages
             res.VerticalAlignment = VerticalAlignment.Bottom;
 
             var marg = res.Margin;
-            marg.Bottom = -200;
+            marg.Top = 20;
             res.Margin = marg;
 
             res.Content = "Добавить";
@@ -157,31 +203,37 @@ namespace UI.Pages
                 case "Teachers":
                     Teachers();
                     res.Click += TeachersAdd;
+                    dataGrid.ItemsSource = Select.Teachers();
                     break;
 
                 case "Classrooms":
                     Classrooms();
                     res.Click += ClassroomsAdd;
+                    dataGrid.ItemsSource = Select.Classrooms();
                     break;
 
                 case "Equipment":
                     Equipment();
                     res.Click += EquipmentAdd;
+                    dataGrid.ItemsSource = Select.Equipment();
                     break;
 
                 case "Groups":
                     Groups();
                     res.Click += GroupsAdd;
+                    dataGrid.ItemsSource = Select.Groups();
                     break;
 
                 case "Subjects":
                     Subjects();
                     res.Click += SubjectsAdd;
+                    dataGrid.ItemsSource = Select.Subjects();
                     break;
 
                 case "Lesson time":
                     LessonTime();
                     res.Click += LessonTimeAdd;
+                    dataGrid.ItemsSource = Select.LessonTimes();
                     break;
 
                 default:

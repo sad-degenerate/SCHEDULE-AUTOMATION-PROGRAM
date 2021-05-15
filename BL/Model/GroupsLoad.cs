@@ -40,5 +40,10 @@ namespace BL.Model
             SubjectId = subject.Id;
             Load = load;
         }
+
+        public override string ToString()
+        {
+            return $"{Group.Name} - {Subject.Name} ({Load})";
+        }
     }
 }

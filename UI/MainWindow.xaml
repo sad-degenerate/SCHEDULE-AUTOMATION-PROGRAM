@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Главное окно" Height="500" Width="1000">
+        Title="Главное окно" Height="500" Width="1000" ResizeMode="CanMinimize">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>

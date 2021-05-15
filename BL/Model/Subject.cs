@@ -37,5 +37,10 @@ namespace BL.Model
             Equipment = equipment;
             EquipmentId = equipment.Id;
         }
+
+        public override string ToString()
+        {
+            return $"{Name}";
+        }
     }
 }
