@@ -161,8 +161,6 @@ namespace UI.Pages
             labelsPanel.Children.Clear();
             textBoxPanel.Children.Clear();
 
-            // TODO: Обновление списка при добавлении в список.
-
             var res = new Button();
             res.VerticalAlignment = VerticalAlignment.Bottom;
 
@@ -214,7 +212,41 @@ namespace UI.Pages
                     return;
             }
 
+            res.Click += Update;
             textBoxPanel.Children.Add(res);
+        }
+
+        private void Update(object sender, RoutedEventArgs e)
+        {
+            switch (treeView.SelectedItem.ToString())
+            {
+                case "Teachers":
+                    dataGrid.ItemsSource = Select.Teachers();
+                    break;
+
+                case "Classrooms":
+                    dataGrid.ItemsSource = Select.Classrooms();
+                    break;
+
+                case "Equipment":
+                    dataGrid.ItemsSource = Select.Equipment();
+                    break;
+
+                case "Groups":
+                    dataGrid.ItemsSource = Select.Groups();
+                    break;
+
+                case "Subjects":
+                    dataGrid.ItemsSource = Select.Subjects();
+                    break;
+
+                case "Lesson time":
+                    dataGrid.ItemsSource = Select.LessonTimes();
+                    break;
+
+                default:
+                    return;
+            }
         }
     }
 }

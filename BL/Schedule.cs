@@ -1,5 +1,4 @@
 ﻿using BL.Commands;
-using BL.Model;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,11 +30,11 @@ namespace BL
                         throw new ArgumentException("Пока не доработано корректное распределение множества учителей.");
 
                     var createingList = new List<object>()
-                        {
-                            groupLoad.Subject,
-                            teacherLoad.Teacher,
-                            groupLoad.Group
-                        };
+                    {
+                        groupLoad.Subject,
+                        teacherLoad.Teacher,
+                        groupLoad.Group
+                    };
 
                     Insert.LessonFrames(createingList);
                 }
