@@ -20,25 +20,22 @@ namespace BL.Model
 
         public Lesson(List<object> list)
         {
-            // TODO: Возможно проверки.
             var lessonTime = list[0] as LessonTime;
             var subject = list[1] as Subject;
             var teacher = list[2] as Teacher;
             var group = list[3] as Group;
+            var classroom = list[4] as Classroom;
 
             LessonTimeId = lessonTime.Id;
             SubjectId = subject.Id;
             TeacherId = teacher.Id;
             GroupId = group.Id;
+            ClassroomId = classroom.Id;
         }
 
-        public Lesson(int id, int subjectId, int teacherId, int groupId, int lessonTimeId)
+        public override string ToString()
         {
-            Id = id;
-            LessonTime = LessonTime;
-            SubjectId = subjectId;
-            TeacherId = teacherId;
-            GroupId = groupId;
+            return $"{Subject.Name} - ({Teacher.Name}/{Group.Name}) - {Classroom.Name}";
         }
     }
 }

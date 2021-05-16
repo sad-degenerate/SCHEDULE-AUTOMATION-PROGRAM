@@ -27,6 +27,16 @@ namespace BL.Commands
             }
         }
 
+        public static List<LessonFrame> LessonFrames()
+        {
+            using (var context = new MyDbContext())
+            {
+                var lessonFrames = context.LessonFrames.Include(x => x.Group)
+                    .Include(x => x.Subject).Include(x => x.Teacher).ToList();
+                return lessonFrames;
+            }
+        }
+
         public static List<LessonTime> LessonTimes()
         {
             using (var context = new MyDbContext())
@@ -69,6 +79,15 @@ namespace BL.Commands
             {
                 var groupsLoads = context.GroupsLoads.Include(x => x.Group).Include(x => x.Subject).ToList();
                 return groupsLoads;
+            }
+        }
+
+        public static List<TeachersLoad> TeachersLoads()
+        {
+            using (var context = new MyDbContext())
+            {
+                var teachersLoads = context.TeachersLoads.Include(x => x.Teacher).Include(x => x.Subject).ToList();
+                return teachersLoads;
             }
         }
 

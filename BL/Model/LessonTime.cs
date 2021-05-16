@@ -6,8 +6,8 @@ namespace BL.Model
     public class LessonTime
     {
         public int Id { get; set; }
-        public DateTime Start { get; set; }
-        public DateTime End { get; set; }
+        public TimeSpan Start { get; set; }
+        public TimeSpan End { get; set; }
 
         public virtual ICollection<Lesson> Lessons { get; set; }
 
@@ -20,15 +20,13 @@ namespace BL.Model
             if (!DateTime.TryParse(list[1].ToString(), out DateTime end))
                 throw new ArgumentException("Невозможно обработать время.", nameof(end));
 
-            Start = start;
-            End = end;
+            Start = start.TimeOfDay;
+            End = end.TimeOfDay;
         }
 
-        public LessonTime(int id, DateTime start, DateTime end)
+        public override string ToString()
         {
-            Id = id;
-            Start = start;
-            End = end;
+            return $"{Start} - {End}";
         }
     }
 }

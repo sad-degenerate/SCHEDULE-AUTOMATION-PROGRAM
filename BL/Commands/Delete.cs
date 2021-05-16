@@ -1,87 +1,17 @@
-﻿using BL.Model;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using System.Data.Entity;
 
 namespace BL.Commands
 {
-    public static class Delete
+    public static class Delete<T>
     {
-        public static void Teacher(List<Teacher> teachers)
+        public static void DeleteFromTable(List<T> list)
         {
             using (var context = new MyDbContext())
             {
-                context.Teachers.RemoveRange(teachers);
-                context.SaveChanges();
-            }
-        }
+                foreach (var el in list)
+                    context.Entry(el).State = EntityState.Deleted;
 
-        public static void Lesson(List<Lesson> lessons)
-        {
-            using (var context = new MyDbContext())
-            {
-                context.Lessons.RemoveRange(lessons);
-                context.SaveChanges();
-            }
-        }
-
-        public static void LessonTime(List<LessonTime> lessonTimes)
-        {
-            using (var context = new MyDbContext())
-            {
-                context.LessonTimes.RemoveRange(lessonTimes);
-                context.SaveChanges();
-            }
-        }
-
-        public static void Group(List<Group> groups)
-        {
-            using (var context = new MyDbContext())
-            {
-                context.Groups.RemoveRange(groups);
-                context.SaveChanges();
-            }
-        }
-
-        public static void Equipment(List<Equipment> equipment)
-        {
-            using (var context = new MyDbContext())
-            {
-                context.Equipment.RemoveRange(equipment);
-                context.SaveChanges();
-            }
-        }
-
-        public static void Subject(List<Subject> subjects)
-        {
-            using (var context = new MyDbContext())
-            {
-                context.Subjects.RemoveRange(subjects);
-                context.SaveChanges();
-            }
-        }
-
-        public static void GroupsLoad(List<GroupsLoad> groupsLoads)
-        {
-            using (var context = new MyDbContext())
-            {
-                context.GroupsLoads.RemoveRange(groupsLoads);
-                context.SaveChanges();
-            }
-        }
-
-        public static void TeachersLoad(List<TeachersLoad> teachersLoads)
-        {
-            using (var context = new MyDbContext())
-            {
-                context.TeachersLoads.RemoveRange(teachersLoads);
-                context.SaveChanges();
-            }
-        }
-
-        public static void Classroom(List<Classroom> classrooms)
-        {
-            using (var context = new MyDbContext())
-            {
-                context.Classrooms.RemoveRange(classrooms);
                 context.SaveChanges();
             }
         }

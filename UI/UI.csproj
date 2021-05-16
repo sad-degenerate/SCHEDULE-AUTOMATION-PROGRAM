@@ -77,6 +77,8 @@
     <Compile Include="Pages\Syllabus.xaml.cs">
       <DependentUpon>Syllabus.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Utility\AddingItemsHelper.cs" />
+    <Compile Include="Utility\DataListFromControlList.cs" />
     <Compile Include="Utility\NewComboBox.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>

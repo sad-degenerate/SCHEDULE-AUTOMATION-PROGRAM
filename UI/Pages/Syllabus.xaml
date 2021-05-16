@@ -15,7 +15,24 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <TreeView x:Name="treeView" Grid.Column="0" Style="{StaticResource MaterialDesignTreeView}" SelectedItemChanged="treeView_SelectedItemChanged" FontSize="20"/>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="9*"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <TreeView x:Name="treeView" Grid.Row="0" Style="{StaticResource MaterialDesignTreeView}" 
+                      SelectedItemChanged="treeView_SelectedItemChanged" FontSize="20"/>
+            <Grid Grid.Row="1">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                
+                <Button x:Name="btnTeachers" Content="Преподаватели" Grid.Column="0" Click="TreeViewSwitch"/>
+                <Button x:Name="btnGroups" Content="Группы" Grid.Column="1" Click="TreeViewSwitch"/>
+            </Grid>
+        </Grid>
+        
 
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>

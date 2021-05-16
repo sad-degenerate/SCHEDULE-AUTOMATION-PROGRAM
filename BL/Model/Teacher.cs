@@ -9,6 +9,8 @@ namespace BL.Model
         public string Name { get; set; }
 
         public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<TeachersLoad> TeachersLoads { get; set; }
+        public virtual ICollection<LessonFrame> LessonFrames { get; set; }
 
         public Teacher() { }
 
@@ -17,17 +19,8 @@ namespace BL.Model
             var name = list[0].ToString();
 
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Teacher's name is null.");
+                throw new ArgumentNullException(nameof(name), "Не удалось считать имя преподавателя, оно равно - null.");
 
-            Name = name;
-        }
-
-        public Teacher(int id, string name)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Teacher's name is null.");
-
-            Id = id;
             Name = name;
         }
 

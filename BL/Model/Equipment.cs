@@ -21,26 +21,12 @@ namespace BL.Model
                 throw new ArgumentException("Вы ввели не число!", nameof(numberOfSeats));
 
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Equipment's name is null.");
+                throw new ArgumentNullException(nameof(name), "Название оборудования - пусто.");
             if (numberOfSeats <= 0)
-                throw new ArgumentException("Equipment's number of seats is less than zero.");
+                throw new ArgumentException("Количество сидений оборудования меньше либо равно нулю.");
 
             Name = name;
             NumberOfSeats = numberOfSeats;
-        }
-
-        public Equipment(int id, string name, int numberOfSeats, ICollection<Subject> subjects, ICollection<Classroom> classrooms)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Equipment's name is null.");
-            if (numberOfSeats <= 0)
-                throw new ArgumentException("Equipment's number of seats is less than zero.");
-
-            Id = id;
-            Name = name;
-            NumberOfSeats = numberOfSeats;
-            Subjects = subjects;
-            Classrooms = classrooms;
         }
 
         public override string ToString()

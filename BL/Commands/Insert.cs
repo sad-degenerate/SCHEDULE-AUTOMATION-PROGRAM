@@ -5,6 +5,7 @@ namespace BL.Commands
 {
     public static class Insert
     {
+        // TODO: Повторяющиеся строки базы данных.
         public static void Teachers(List<object> list)
         {
             using (var context = new MyDbContext())
@@ -37,6 +38,15 @@ namespace BL.Commands
             using (var context = new MyDbContext())
             {
                 context.Lessons.Add(new Lesson(list));
+                context.SaveChanges();
+            }
+        }
+
+        public static void LessonFrames(List<object> list)
+        {
+            using (var context = new MyDbContext())
+            {
+                context.LessonFrames.Add(new LessonFrame(list));
                 context.SaveChanges();
             }
         }

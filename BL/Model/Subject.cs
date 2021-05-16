@@ -12,6 +12,7 @@ namespace BL.Model
         public virtual Equipment Equipment { get; set; }
 
         public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<LessonFrame> LessonFrames { get; set; }
 
         public Subject() { }
 
@@ -21,20 +22,9 @@ namespace BL.Model
             var equipment = list[1] as Equipment;
 
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Subject's name is null.");
+                throw new ArgumentNullException(nameof(name), "Название предмета - пусто.");
 
             Name = name;
-            EquipmentId = equipment.Id;
-        }
-
-        public Subject(int id, string name, Equipment equipment)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Subject's name is null.");
-
-            Id = id;
-            Name = name;
-            Equipment = equipment;
             EquipmentId = equipment.Id;
         }
 

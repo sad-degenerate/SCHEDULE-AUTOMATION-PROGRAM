@@ -9,7 +9,9 @@ namespace BL.Model
         public string Name { get; set; }
         public int NumberOfStudents { get; set; }
 
+        public virtual ICollection<GroupsLoad> GroupsLoads { get; set; }
         public virtual ICollection<Lesson> Lessons { get; set; }
+        public virtual ICollection<LessonFrame> LessonFrames { get; set; }
 
         public Group() { }
 
@@ -17,25 +19,13 @@ namespace BL.Model
         {
             var name = list[0].ToString();
             if (!int.TryParse(list[1].ToString(), out int numberOfStudents))
-                throw new ArgumentException("Вы ввели не число!", nameof(numberOfStudents));
+                throw new ArgumentException("В поле количество студентов было введено не число.", nameof(numberOfStudents));
 
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Group's name is null.");
+                throw new ArgumentNullException(nameof(name), "Название группы - пусто.");
             if (numberOfStudents <= 0)
-                throw new ArgumentException("Group's number of students is less than zero.", nameof(numberOfStudents));
+                throw new ArgumentException("Количество студентов в группе меньше либо равно нулю.", nameof(numberOfStudents));
 
-            Name = name;
-            NumberOfStudents = numberOfStudents;
-        }
-
-        public Group(int id, string name, int numberOfStudents)
-        {
-            if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Group's name is null.");
-            if (numberOfStudents <= 0)
-                throw new ArgumentException("Group's number of students is less than zero.", nameof(numberOfStudents));
-
-            Id = id;
             Name = name;
             NumberOfStudents = numberOfStudents;
         }

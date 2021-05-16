@@ -7,7 +7,7 @@ namespace BL.Model
     {
         public int Id { get; set; }
         public int TeacherId { get; set; }
-        public Teacher Teacher { get; set; }
+        public virtual Teacher Teacher { get; set; }
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
         public int Load { get; set; }
@@ -16,34 +16,22 @@ namespace BL.Model
 
         public TeachersLoad(List<object> list)
         {
-            var teacher = list[0] as Teacher;
-            var subject = list[1] as Subject;
-            var load = int.Parse(list[2].ToString());
+            var subject = list[0] as Subject;
+            var teacher = list[2] as Teacher;
+            if (!int.TryParse(list[1].ToString(), out var load))
+                throw new ArgumentNullException(nameof(load), "Нагрузка преподавателя имеет не целочисленный формат, проверьте правильность ввода.");
 
             if (load <= 0)
-                throw new ArgumentException("TeachersLoad's load is less than zero.", nameof(load));
+                throw new ArgumentException("Нагрузка преподавателя меньше либо равна нулю.", nameof(load));
 
             TeacherId = teacher.Id;
-            SubjectId = subject.Id;
-            Load = load;
-        }
-
-        public TeachersLoad(int id, Teacher teacher, Subject subject, int load)
-        {
-            if (load <= 0)
-                throw new ArgumentException("TeachersLoad's load is less than zero.", nameof(load));
-
-            Id = id;
-            Teacher = teacher;
-            TeacherId = teacher.Id;
-            Subject = subject;
             SubjectId = subject.Id;
             Load = load;
         }
 
         public override string ToString()
         {
-            return $"{Teacher.Name} - {Subject.Name}  ({Load})";
+            return $"{Subject.Name}  {Load}";
         }
     }
 }

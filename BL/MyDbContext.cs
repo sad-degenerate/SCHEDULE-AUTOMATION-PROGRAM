@@ -16,5 +16,6 @@ namespace BL
         public DbSet<Classroom> Classrooms { get; set; }
         public DbSet<LessonTime> LessonTimes { get; set; }
         public DbSet<Lesson> Lessons { get; set; }
+        public DbSet<LessonFrame> LessonFrames { get; set; }
     }
 }

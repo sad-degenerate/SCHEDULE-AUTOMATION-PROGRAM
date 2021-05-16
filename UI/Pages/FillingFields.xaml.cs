@@ -1,11 +1,10 @@
 ﻿using BL;
 using BL.Commands;
 using BL.Model;
-using MaterialDesignThemes.Wpf;
 using System;
-using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using UI.Utility;
 
 namespace UI.Pages
 {
@@ -21,66 +20,18 @@ namespace UI.Pages
             treeView.ItemsSource = Data.Classes;
         }
 
-        private void AddLabel(string text)
-        {
-            var block = new TextBlock();
-            block.Text = text;
-            var marg = block.Margin;
-            marg.Left = 10;
-            marg.Top = 5;
-            block.Margin = marg;
-            labelsPanel.Children.Add(block);
-        }
-
-        private void AddTextBox(string lblText)
-        {
-            AddLabel(lblText);
-
-            textBoxPanel.Children.Add(new TextBox());
-        }
-
-        private void AddComboBox(ComboBox box, string lblText)
-        {
-            textBoxPanel.Children.Add(box);
-
-            AddLabel(lblText);
-        }
-
-        private void AddTimePicker(string lblText)
-        {
-            var time = new TimePicker();
-            textBoxPanel.Children.Add(time);
-
-            AddLabel(lblText);
-        }
-
-        private List<object> CreateList()
-        {
-            var list = new List<object>();
-
-            foreach (var el in textBoxPanel.Children)
-            {
-                if (el is TextBox)
-                    list.Add(((TextBox)el).Text);
-                else if (el is ComboBox)
-                    list.Add(((ComboBox)el).SelectedItem);
-                else if (el is TimePicker)
-                    list.Add(((TimePicker)el).SelectedTime.Value);
-            }
-
-            return list;
-        }
-
         private void Teachers()
         {
-            AddTextBox("ФИО учителя:");
+            var tbx = AddingItemsHelper.CreateTextBox("ФИО учителя:");
+            labelsPanel.Children.Add(tbx.Item1);
+            textBoxPanel.Children.Add(tbx.Item2);
         }
 
         private void TeachersAdd(object sender, EventArgs e)
         {
             try
             {
-                Insert.Teachers(CreateList());
+                Insert.Teachers(DataListFromControlList.CreateList(textBoxPanel));
             }
             catch (Exception ex)
             {
@@ -90,17 +41,21 @@ namespace UI.Pages
 
         private void Classrooms()
         {
-            AddTextBox("Название аудитории:");
+            var tbx = AddingItemsHelper.CreateTextBox("Название аудитории:");
+            labelsPanel.Children.Add(tbx.Item1);
+            textBoxPanel.Children.Add(tbx.Item2);
 
             var box = new NewComboBox<Equipment>();
-            AddComboBox(box.CreateComboBox(Select.Equipment()), "Оборудование:");
+            var cbx = AddingItemsHelper.CreateComboBox(box.CreateComboBox(Select.Equipment()), "Оборудование:");
+            labelsPanel.Children.Add(cbx.Item1);
+            textBoxPanel.Children.Add(cbx.Item2);
         }
 
         private void ClassroomsAdd(object sender, EventArgs e)
         {
             try
             {
-                Insert.Classrooms(CreateList());
+                Insert.Classrooms(DataListFromControlList.CreateList(textBoxPanel));
             }
             catch (Exception ex)
             {
@@ -110,16 +65,20 @@ namespace UI.Pages
 
         private void Equipment()
         {
-            AddTextBox("Название:");
+            var tbx = AddingItemsHelper.CreateTextBox("Название:");
+            labelsPanel.Children.Add(tbx.Item1);
+            textBoxPanel.Children.Add(tbx.Item2);
 
-            AddTextBox("Количество сидений:");
+            tbx = AddingItemsHelper.CreateTextBox("Количество сидений:");
+            labelsPanel.Children.Add(tbx.Item1);
+            textBoxPanel.Children.Add(tbx.Item2);
         }
 
         private void EquipmentAdd(object sender, EventArgs e)
         {
             try
             {
-                Insert.Equipment(CreateList());
+                Insert.Equipment(DataListFromControlList.CreateList(textBoxPanel));
             }
             catch (Exception ex)
             {
@@ -129,16 +88,20 @@ namespace UI.Pages
 
         private void Groups()
         {
-            AddTextBox("Название:");
+            var tbx = AddingItemsHelper.CreateTextBox("Название:");
+            labelsPanel.Children.Add(tbx.Item1);
+            textBoxPanel.Children.Add(tbx.Item2);
 
-            AddTextBox("Количество учеников:");
+            tbx = AddingItemsHelper.CreateTextBox("Количество учеников:");
+            labelsPanel.Children.Add(tbx.Item1);
+            textBoxPanel.Children.Add(tbx.Item2);
         }
 
         private void GroupsAdd(object sender, EventArgs e)
         {
             try
             {
-                Insert.Groups(CreateList());
+                Insert.Groups(DataListFromControlList.CreateList(textBoxPanel));
             }
             catch (Exception ex)
             {
@@ -148,17 +111,21 @@ namespace UI.Pages
 
         private void Subjects()
         {
-            AddTextBox("Название:");
+            var tbx = AddingItemsHelper.CreateTextBox("Название:");
+            labelsPanel.Children.Add(tbx.Item1);
+            textBoxPanel.Children.Add(tbx.Item2);
 
             var box = new NewComboBox<Equipment>();
-            AddComboBox(box.CreateComboBox(Select.Equipment()), "Оборудование: ");
+            var cbx = AddingItemsHelper.CreateComboBox(box.CreateComboBox(Select.Equipment()), "Оборудование:");
+            labelsPanel.Children.Add(cbx.Item1);
+            textBoxPanel.Children.Add(cbx.Item2);
         }
 
         private void SubjectsAdd(object sender, EventArgs e)
         {
             try
             {
-                Insert.Subjects(CreateList());
+                Insert.Subjects(DataListFromControlList.CreateList(textBoxPanel));
             }
             catch (Exception ex)
             {
@@ -170,7 +137,7 @@ namespace UI.Pages
         {
             try
             {
-                Insert.LessonTimes(CreateList());
+                Insert.LessonTimes(DataListFromControlList.CreateList(textBoxPanel));
             }
             catch (Exception ex)
             {
@@ -180,14 +147,21 @@ namespace UI.Pages
 
         private void LessonTime()
         {
-            AddTimePicker("Начало:");
-            AddTimePicker("Конец:");
+            var tpr = AddingItemsHelper.CreateTimePicker("Начало:");
+            labelsPanel.Children.Add(tpr.Item1);
+            textBoxPanel.Children.Add(tpr.Item2);
+
+            tpr = AddingItemsHelper.CreateTimePicker("Конец:");
+            labelsPanel.Children.Add(tpr.Item1);
+            textBoxPanel.Children.Add(tpr.Item2);
         }
 
         private void treeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             labelsPanel.Children.Clear();
             textBoxPanel.Children.Clear();
+
+            // TODO: Обновление списка при добавлении в список.
 
             var res = new Button();
             res.VerticalAlignment = VerticalAlignment.Bottom;

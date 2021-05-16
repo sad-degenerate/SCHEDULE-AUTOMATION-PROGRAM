@@ -1,4 +1,6 @@
-﻿using BL.Commands;
+﻿using BL;
+using BL.Commands;
+using BL.Model;
 using System.Windows;
 using UI.Pages;
 
@@ -25,6 +27,18 @@ namespace UI
         private void btnInputSyllabus_Click(object sender, RoutedEventArgs e)
         {
             MainFrame.Content = new Syllabus();
+        }
+
+        private void btnMakeSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            var schedule = new Schedule();
+
+            schedule.Create();
+
+            foreach (var lesson in Select.LessonFrames())
+                MessageBox.Show(lesson.ToString());
+
+            Delete<LessonFrame>.DeleteFromTable(Select.LessonFrames());
         }
     }
 }
