@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using BL.Commands;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace BL.Model
 {

@@ -60,6 +60,40 @@ namespace UI.Pages
             textBoxPanel.Children.Add(res);
 
             res.Click += Add;
+            res.Click += Update;
+        }
+
+        private void Update(object sender, RoutedEventArgs e)
+        {
+            switch (treeView.SelectedItem.ToString())
+            {
+                case "Teachers":
+                    dataGrid.ItemsSource = Select.Teachers();
+                    break;
+
+                case "Classrooms":
+                    dataGrid.ItemsSource = Select.Classrooms();
+                    break;
+
+                case "Equipment":
+                    dataGrid.ItemsSource = Select.Equipment();
+                    break;
+
+                case "Groups":
+                    dataGrid.ItemsSource = Select.Groups();
+                    break;
+
+                case "Subjects":
+                    dataGrid.ItemsSource = Select.Subjects();
+                    break;
+
+                case "Lesson time":
+                    dataGrid.ItemsSource = Select.LessonTimes();
+                    break;
+
+                default:
+                    return;
+            }
         }
 
         private void Add(object sender, RoutedEventArgs e)

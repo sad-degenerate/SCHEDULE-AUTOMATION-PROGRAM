@@ -11,7 +11,7 @@ namespace BL.Model
         public virtual Teacher Teacher { get; set; }
         public int GroupId { get; set; }
         public virtual Group Group { get; set; }
-        public int? FreedoomOfLocation { get; set; }
+        public double? FreedoomOfLocation { get; set; }
 
         public LessonFrame() { }
 
@@ -28,6 +28,9 @@ namespace BL.Model
 
         public override string ToString()
         {
+            if (FreedoomOfLocation != null)
+                return $"{Subject.Name} - ({Teacher.Name}/{Group.Name}) : {FreedoomOfLocation}";
+
             return $"{Subject.Name} - ({Teacher.Name}/{Group.Name})";
         }
     }

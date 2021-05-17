@@ -11,7 +11,7 @@ namespace UnitTests
         public void Create()
         {
             var schedule = new Schedule();
-            schedule.Create();
+            schedule.Start();
 
             Assert.AreNotEqual(0, Select.Lessons().Count);
         }

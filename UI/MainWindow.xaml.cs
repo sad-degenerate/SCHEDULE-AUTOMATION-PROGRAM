@@ -1,4 +1,8 @@
-﻿using BL.Commands;
+﻿using BL;
+using BL.Commands;
+using BL.Model;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using UI.Pages;
 
@@ -29,7 +33,24 @@ namespace UI
 
         private void btnMakeSchedule_Click(object sender, RoutedEventArgs e)
         {
-            
+            var schedule = new Schedule();
+
+            schedule.Start();
+
+            string str1 = "";
+            foreach (var lessonFrame in Select.LessonFrames())
+                str1 += $"{lessonFrame}\n";
+
+
+            string str2 = "";
+            foreach (var val in schedule.results)
+                str2 += $"{val.Value}\n";
+
+            MessageBox.Show(str1);
+            MessageBox.Show(str2);
+
+            Delete<LessonFrame>.DeleteFromTable(Select.LessonFrames());
+            Delete<Lesson>.DeleteFromTable(Select.Lessons());
         }
     }
 }

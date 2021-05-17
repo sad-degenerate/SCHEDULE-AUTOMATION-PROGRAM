@@ -33,5 +33,21 @@ namespace BL.Model
         {
             return $"{Name}";
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Equipment)
+            {
+                // Позже сюда можно добавить другие условия.
+
+                var el = obj as Equipment;
+                if (el.NumberOfSeats == NumberOfSeats)
+                    return true;
+                else
+                    return false;
+            }
+            else
+                return false;
+        }
     }
 }

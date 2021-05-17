@@ -21,8 +21,8 @@ namespace BL.Commands
             using (var context = new MyDbContext())
             {
                 var lessons = context.Lessons.Include(x => x.Group)
-                    .Include(x => x.LessonTime).Include(x => x.Subject)
-                    .Include(x => x.Teacher).ToList();
+                    .Include(x => x.LessonTime).Include(x => x.Subject).Include(x => x.Subject.Equipment)
+                    .Include(x => x.Teacher).Include(x => x.Classroom).Include(x => x.Classroom.Equipment).ToList();
                 return lessons;
             }
         }
@@ -32,7 +32,7 @@ namespace BL.Commands
             using (var context = new MyDbContext())
             {
                 var lessonFrames = context.LessonFrames.Include(x => x.Group)
-                    .Include(x => x.Subject).Include(x => x.Teacher).ToList();
+                    .Include(x => x.Subject).Include(x => x.Teacher).Include(x => x.Subject.Equipment).ToList();
                 return lessonFrames;
             }
         }
