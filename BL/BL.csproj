@@ -52,7 +52,6 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Commands\Delete.cs" />
-    <Compile Include="Commands\Find.cs" />
     <Compile Include="Commands\Insert.cs" />
     <Compile Include="Commands\Select.cs" />
     <Compile Include="Commands\Update.cs" />
