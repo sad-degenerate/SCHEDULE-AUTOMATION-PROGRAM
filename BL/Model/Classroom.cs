@@ -7,6 +7,7 @@ namespace BL.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
+
         public int EquipmentId { get; set; }
         public virtual Equipment Equipment { get; set; }
 
@@ -14,23 +15,26 @@ namespace BL.Model
 
         public Classroom() { }
 
-        public Classroom(List<object> list)
+        public Classroom(string name, int equipmentId)
         {
-            var name = list[0].ToString();
-            var equipment = list[1] as Equipment;
-
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Название аудитории - пусто.");
-            if (equipment == null)
-                throw new ArgumentNullException(nameof(equipment), "Не выбрано оборудование.");
+                throw new ArgumentNullException(nameof(name), "Вы не ввели название аудитории.");
 
             Name = name;
-            EquipmentId = equipment.Id;
+            EquipmentId = equipmentId;
         }
 
-        public override string ToString()
+        public override bool Equals(object obj)
         {
-            return $"{Name}";
+            if (obj is Classroom)
+            {
+                var another = obj as Classroom;
+
+                if (another.Name == Name)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

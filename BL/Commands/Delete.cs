@@ -1,18 +1,23 @@
-﻿using System.Collections.Generic;
+﻿using System;
 using System.Data.Entity;
 
 namespace BL.Commands
 {
     public static class Delete<T>
     {
-        public static void DeleteFromTable(List<T> list)
+        public static void DeleteFromTable(T item)
         {
             using (var context = new MyDbContext())
             {
-                foreach (var el in list)
-                    context.Entry(el).State = EntityState.Deleted;
-
-                context.SaveChanges();
+                try
+                {
+                    context.Entry(item).State = EntityState.Deleted;
+                    context.SaveChanges();
+                }
+                catch (Exception ex)
+                {
+                    var x = ex.Message;
+                }
             }
         }
     }

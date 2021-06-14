@@ -1,5 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 
 namespace UI.Utility
 {
@@ -24,11 +23,6 @@ namespace UI.Utility
         public static (TextBlock, ComboBox) CreateComboBox(ComboBox box, string lblText)
         {
             return (CreateLabel(lblText), box);
-        }
-
-        public static (TextBlock, TimePicker) CreateTimePicker(string lblText)
-        {
-            return (CreateLabel(lblText), new TimePicker());
         }
     }
 }

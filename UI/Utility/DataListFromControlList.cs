@@ -1,5 +1,4 @@
-﻿using MaterialDesignThemes.Wpf;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Windows.Controls;
 
 namespace UI.Utility
@@ -14,10 +13,22 @@ namespace UI.Utility
             {
                 if (el is TextBox)
                     list.Add(((TextBox)el).Text);
-                else if (el is ComboBox)
-                    list.Add(((ComboBox)el).SelectedItem);
-                else if (el is TimePicker)
-                    list.Add(((TimePicker)el).SelectedTime.Value);
+                else if (el is ComboBox && ((ComboBox)el).HasItems)
+                {
+                    var comboBox = (ComboBox)el;
+                    
+                    if (comboBox.Items[0] is CheckBox)
+                    {
+                        var collection = new Dictionary<string, bool>();
+
+                        foreach (CheckBox item in comboBox.Items)
+                            collection.Add(item.Content.ToString(), (bool)item.IsChecked);
+                            
+                        list.Add(collection);
+                    }
+                    else
+                        list.Add(((ComboBox)el).SelectedItem);
+                }
             }
 
             return list;

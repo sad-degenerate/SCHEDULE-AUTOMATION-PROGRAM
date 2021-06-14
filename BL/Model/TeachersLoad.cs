@@ -1,37 +1,42 @@
 ﻿using System;
-using System.Collections.Generic;
 
 namespace BL.Model
 {
     public class TeachersLoad
     {
         public int Id { get; set; }
+
         public int TeacherId { get; set; }
         public virtual Teacher Teacher { get; set; }
+
         public int SubjectId { get; set; }
         public Subject Subject { get; set; }
+
         public int Load { get; set; }
 
         public TeachersLoad() { }
 
-        public TeachersLoad(List<object> list)
+        public TeachersLoad(int subjectId, int teacherId, int load)
         {
-            var subject = list[0] as Subject;
-            var teacher = list[2] as Teacher;
-            if (!int.TryParse(list[1].ToString(), out var load))
-                throw new ArgumentNullException(nameof(load), "Нагрузка преподавателя имеет не целочисленный формат, проверьте правильность ввода.");
-
             if (load <= 0)
-                throw new ArgumentException("Нагрузка преподавателя меньше либо равна нулю.", nameof(load));
+                throw new ArgumentException("Вы ввели неверно нагрузку преподавателя (меньше либо равна нулю).", nameof(load));
 
-            TeacherId = teacher.Id;
-            SubjectId = subject.Id;
+            TeacherId = teacherId;
+            SubjectId = subjectId;
             Load = load;
         }
 
-        public override string ToString()
+        public override bool Equals(object obj)
         {
-            return $"{Subject.Name}  {Load}";
+            if (obj is TeachersLoad)
+            {
+                var another = obj as TeachersLoad;
+
+                if (another.SubjectId == SubjectId && another.TeacherId == TeacherId)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

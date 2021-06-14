@@ -14,4 +14,23 @@ public class NewComboBox<T> : FillingFields
 
         return comboBox;
     }
+
+    public ComboBox CreateCheckBoxComboBox(List<T> list)
+    {
+        var comboBox = new ComboBox();
+
+        var checkBoxes = new List<CheckBox>();
+
+        foreach (var item in list)
+        {
+            var checkBox = new CheckBox();
+            checkBox.Content = item.ToString();
+
+            checkBoxes.Add(checkBox);
+        }
+
+        comboBox.ItemsSource = checkBoxes;
+
+        return comboBox;
+    }
 }

@@ -1,20 +1,21 @@
 ﻿using BL.Commands;
 using System.Collections.Generic;
-using System.Linq;
 using System.Windows.Controls;
 using System.Windows;
 using UI.Utility;
 using BL.Model;
 using System;
+using BL;
+using System.Data;
+using System.ComponentModel;
+using System.Windows.Input;
 
 namespace UI.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для Syllabus.xaml
-    /// </summary>
     public partial class Syllabus : Page
     {
-        private string currentTreeView = "teachers";
+        private ModelObjectsTypes currentTreeView = ModelObjectsTypes.teachersLoad;
+        private DataRowView _editingRow;
 
         public Syllabus()
         {
@@ -23,96 +24,88 @@ namespace UI.Pages
             Update();
         }
 
+        private void AddTextBoxToScene(string text)
+        {
+            var tbx = AddingItemsHelper.CreateTextBox(text);
+            labelsPanel.Children.Add(tbx.Item1);
+            textBoxPanel.Children.Add(tbx.Item2);
+        }
+
+        private void AddComboBoxToScene(string name, ComboBox box)
+        {
+            var cbx = AddingItemsHelper.CreateComboBox(box, name);
+            labelsPanel.Children.Add(cbx.Item1);
+            textBoxPanel.Children.Add(cbx.Item2);
+        }
+
         private void treeView_SelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
         {
             textBoxPanel.Children.Clear();
             labelsPanel.Children.Clear();
 
+            var res = ButtonStyle();
+            UpdateDataGrid();
+
+            var ncb = new NewComboBox<Subject>();
+            var box = ncb.CreateComboBox(Select.Subjects());
+            AddComboBoxToScene("Предмет:", box);
+
+            AddTextBoxToScene("Нагрузка:");
+
+            res.Click += Add;
+            res.Click += UpdateDataGridEvent;
+
+            textBoxPanel.Children.Add(res);
+        }
+
+        private void UpdateDataGridEvent(object sender, RoutedEventArgs e)
+        {
+            UpdateDataGrid();
+        }
+
+        private void UpdateDataGrid()
+        {
+            try
+            {
+                if (currentTreeView == ModelObjectsTypes.flowsLoad)
+                    dataGrid.ItemsSource = DataGridFilling.FlowsLoad(treeView.SelectedItem.ToString()).AsDataView();
+                else
+                    dataGrid.ItemsSource = DataGridFilling.TeachersLoad(treeView.SelectedItem.ToString()).AsDataView();
+
+                for (var i = 0; i < dataGrid.Items.Count; i++)
+                {
+                    ((DataRowView)dataGrid.Items[i]).PropertyChanged += Changing;
+                }
+            }
+            catch { }
+            
+        }
+
+        private void Changing(object sender, PropertyChangedEventArgs e)
+        {
+            _editingRow = dataGrid.CurrentItem as DataRowView;
+            EditingDataGrid();
+        }
+
+        private static Button ButtonStyle()
+        {
             var res = new Button();
             var marg = res.Margin;
             marg.Top = 20;
             res.Margin = marg;
             res.VerticalAlignment = VerticalAlignment.Bottom;
             res.Content = "Добавить";
-
-            // TODO: Переписать для случая преподавателей с одинаковыми именами.
-
-            if (currentTreeView == "groups")
-            {
-                dataGrid.ItemsSource = Select.GroupsLoads().Where(g => g.Group.Name == treeView.SelectedItem.ToString());
-            }
-            else
-            {
-                dataGrid.ItemsSource = Select.TeachersLoads().Where(t => t.Teacher.Name == treeView.SelectedItem.ToString());
-            }
-
-            var box = new NewComboBox<Subject>();
-            var subj = AddingItemsHelper.CreateComboBox(box.CreateComboBox(Select.Subjects()), "Предмет:");
-            labelsPanel.Children.Add(subj.Item1);
-            textBoxPanel.Children.Add(subj.Item2);
-
-            var tbx = AddingItemsHelper.CreateTextBox("Нагрузка:");
-            labelsPanel.Children.Add(tbx.Item1);
-            textBoxPanel.Children.Add(tbx.Item2);
-
-            
-
-            textBoxPanel.Children.Add(res);
-
-            res.Click += Add;
-            res.Click += Update;
-        }
-
-        private void Update(object sender, RoutedEventArgs e)
-        {
-            switch (treeView.SelectedItem.ToString())
-            {
-                case "Teachers":
-                    dataGrid.ItemsSource = Select.Teachers();
-                    break;
-
-                case "Classrooms":
-                    dataGrid.ItemsSource = Select.Classrooms();
-                    break;
-
-                case "Equipment":
-                    dataGrid.ItemsSource = Select.Equipment();
-                    break;
-
-                case "Groups":
-                    dataGrid.ItemsSource = Select.Groups();
-                    break;
-
-                case "Subjects":
-                    dataGrid.ItemsSource = Select.Subjects();
-                    break;
-
-                case "Lesson time":
-                    dataGrid.ItemsSource = Select.LessonTimes();
-                    break;
-
-                default:
-                    return;
-            }
+            return res;
         }
 
         private void Add(object sender, RoutedEventArgs e)
         {
-            // TODO: Ту да же исправление с одинаковыми именами.
-
             try
             {
                 var list = DataListFromControlList.CreateList(textBoxPanel);
-                if (currentTreeView == "teachers")
-                {
-                    list.Add(Select.Teachers().Where(t => t.Name == treeView.SelectedItem.ToString()).First());
-                    Insert.TeachersLoad(list);
-                }
-                else
-                {
-                    list.Add(Select.Groups().Where(g => g.Name == treeView.SelectedItem.ToString()).First());
-                    Insert.GroupsLoad(list);
-                }
+                object selected = treeView.SelectedItem.ToString();
+                list.Add(selected);
+                UserInputToDB.Insert(list, currentTreeView);
             }
             catch (Exception ex)
             {
@@ -129,15 +122,15 @@ namespace UI.Pages
 
             switch (currentTreeView)
             {
-                case "teachers":
+                case ModelObjectsTypes.teachersLoad:
                     var list = Select.Teachers();
 
                     foreach (var el in list)
                         textList.Add(el.Name);
                     break;
 
-                case "groups":
-                    var list1 = Select.Groups();
+                case ModelObjectsTypes.flowsLoad:
+                    var list1 = Select.Flows();
 
                     foreach (var el in list1)
                         textList.Add(el.Name);
@@ -155,11 +148,45 @@ namespace UI.Pages
             var s = sender as Button;
 
             if (s.Name == "btnTeachers")
-                currentTreeView = "teachers";
+                currentTreeView = ModelObjectsTypes.teachersLoad;
             else
-                currentTreeView = "groups";
+                currentTreeView = ModelObjectsTypes.flowsLoad;
 
             Update();
+        }
+
+        private void EditingDataGrid()
+        {
+            try
+            {
+                var edit = new DataGridEditing(_editingRow);
+                edit.EditDataGrid(currentTreeView);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                UpdateDataGrid();
+            }
+        }
+
+        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            try
+            {
+                if (e.Key == Key.Delete)
+                {
+                    var index = dataGrid.SelectedIndex;
+                    var row = dataGrid.Items[index] as DataRowView;
+                    DataGridDeleting.Delete(int.Parse(row["ID"].ToString()), Globals.Classes[treeView.SelectedItem.ToString()]);
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
     }
 }

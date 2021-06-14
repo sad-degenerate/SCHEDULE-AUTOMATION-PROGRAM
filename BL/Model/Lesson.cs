@@ -1,43 +1,40 @@
-﻿using BL.Commands;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 
 namespace BL.Model
 {
     public class Lesson
     {
         public int Id { get; set; }
+
         public int SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
+
         public int TeacherId { get; set; }
         public virtual Teacher Teacher { get; set; }
-        public int GroupId { get; set; }
-        public virtual Group Group { get; set; }
-        public int LessonTimeId { get; set; }
-        public virtual LessonTime LessonTime { get; set; }
+
         public int ClassroomId { get; set; }
         public virtual Classroom Classroom { get; set; }
 
+        public int DayId { get; set; }
+        public virtual Day Day { get; set; }
+
+        public int LessonTime { get; set; }
+
+        public virtual ICollection<Subgroup> Subgroups { get; set; }
+
         public Lesson() { }
 
-        public Lesson(List<object> list)
+        public Lesson(int subjectId, int teacherId, int classroomId, int dayId, int lessonTime)
         {
-            var lessonTime = list[0] as LessonTime;
-            var subject = list[1] as Subject;
-            var teacher = list[2] as Teacher;
-            var group = list[3] as Group;
-            var classroom = list[4] as Classroom;
+            if (lessonTime <= 0 || lessonTime > Globals.MaxLessonsInDay)
+                throw new ArgumentException();
 
-            LessonTimeId = lessonTime.Id;
-            SubjectId = subject.Id;
-            TeacherId = teacher.Id;
-            GroupId = group.Id;
-            ClassroomId = classroom.Id;
-        }
-
-        public override string ToString()
-        {
-            return $"{Subject.Name} - ({Teacher.Name}/{Group.Name}) - {Classroom.Name}";
+            SubjectId = subjectId;
+            TeacherId = teacherId;
+            ClassroomId = classroomId;
+            DayId = dayId;
+            LessonTime = lessonTime;
         }
     }
 }

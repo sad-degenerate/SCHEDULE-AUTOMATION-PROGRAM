@@ -103,12 +103,23 @@
     <Compile Include="Pages\FillingFields.xaml.cs">
       <DependentUpon>FillingFields.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\OptimalityCriterions.xaml.cs">
+      <DependentUpon>OptimalityCriterions.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Pages\SchedulePage.xaml.cs">
+      <DependentUpon>SchedulePage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\Syllabus.xaml.cs">
       <DependentUpon>Syllabus.xaml</DependentUpon>
     </Compile>
     <Compile Include="Utility\AddingItemsHelper.cs" />
+    <Compile Include="Utility\CreateTable.cs" />
+    <Compile Include="Utility\DataGridDeleting.cs" />
+    <Compile Include="Utility\DataGridEditing.cs" />
+    <Compile Include="Utility\DataGridFilling.cs" />
     <Compile Include="Utility\DataListFromControlList.cs" />
     <Compile Include="Utility\NewComboBox.cs" />
+    <Compile Include="Utility\CollectionConverter.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -122,6 +133,14 @@
       <SubType>Code</SubType>
     </Compile>
     <Page Include="Pages\FillingFields.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\OptimalityCriterions.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\SchedulePage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

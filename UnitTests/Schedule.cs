@@ -10,10 +10,7 @@ namespace UnitTests
         [TestMethod]
         public void Create()
         {
-            var schedule = new Schedule();
-            schedule.Start();
-
-            Assert.AreNotEqual(0, Select.Lessons().Count);
+            
         }
     }
 }

@@ -1,37 +1,42 @@
-﻿using System.Collections.Generic;
-
-namespace BL.Model
+﻿namespace BL.Model
 {
     public class LessonFrame
     {
         public int Id { get; set; }
+
         public int SubjectId { get; set; }
         public virtual Subject Subject { get; set; }
+
         public int TeacherId { get; set; }
         public virtual Teacher Teacher { get; set; }
-        public int GroupId { get; set; }
-        public virtual Group Group { get; set; }
+
+        public int FlowId { get; set; }
+        public virtual Flow Flow { get; set; }
+
         public double? FreedoomOfLocation { get; set; }
+        public int LessonFrameCount { get; set; }
 
         public LessonFrame() { }
 
-        public LessonFrame(List<object> list)
+        public LessonFrame(Teacher teacher, Subject subject, Flow flow)
         {
-            var subject = list[0] as Subject;
-            var teacher = list[1] as Teacher;
-            var group = list[2] as Group;
-
+            LessonFrameCount = 1;
             SubjectId = subject.Id;
             TeacherId = teacher.Id;
-            GroupId = group.Id;
+            FlowId = flow.Id;
         }
 
-        public override string ToString()
+        public override bool Equals(object obj)
         {
-            if (FreedoomOfLocation != null)
-                return $"{Subject.Name} - ({Teacher.Name}/{Group.Name}) : {FreedoomOfLocation}";
+            if (obj is LessonFrame)
+            {
+                var another = obj as LessonFrame;
 
-            return $"{Subject.Name} - ({Teacher.Name}/{Group.Name})";
+                if (another.Id == Id)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

@@ -7,32 +7,39 @@ namespace BL.Model
     {
         public int Id { get; set; }
         public string Name { get; set; }
-        public int NumberOfStudents { get; set; }
 
-        public virtual ICollection<GroupsLoad> GroupsLoads { get; set; }
-        public virtual ICollection<Lesson> Lessons { get; set; }
-        public virtual ICollection<LessonFrame> LessonFrames { get; set; }
+        public int FlowId { get; set; }
+        public virtual Flow Flow { get; set; }
+
+        public virtual ICollection<Subgroup> Subgroups { get; set; }
 
         public Group() { }
 
-        public Group(List<object> list)
+        public Group(string name, int flowId)
         {
-            var name = list[0].ToString();
-            if (!int.TryParse(list[1].ToString(), out int numberOfStudents))
-                throw new ArgumentException("В поле количество студентов было введено не число.", nameof(numberOfStudents));
-
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Название группы - пусто.");
-            if (numberOfStudents <= 0)
-                throw new ArgumentException("Количество студентов в группе меньше либо равно нулю.", nameof(numberOfStudents));
+                throw new ArgumentNullException(nameof(name), "Вы не ввели название группы.");
 
             Name = name;
-            NumberOfStudents = numberOfStudents;
+            FlowId = flowId;
         }
 
         public override string ToString()
         {
-            return $"{Name}";
+            return $"{Flow}{Name}";
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Group)
+            {
+                var another = obj as Group;
+
+                if (another.Name == Name && another.FlowId == FlowId)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

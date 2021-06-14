@@ -29,7 +29,7 @@
                 </Grid.ColumnDefinitions>
                 
                 <Button x:Name="btnTeachers" Content="Преподаватели" Grid.Column="0" Click="TreeViewSwitch"/>
-                <Button x:Name="btnGroups" Content="Группы" Grid.Column="1" Click="TreeViewSwitch"/>
+                <Button x:Name="btnFlows" Content="Потоки" Grid.Column="1" Click="TreeViewSwitch"/>
             </Grid>
         </Grid>
         
@@ -46,7 +46,7 @@
 
             <StackPanel x:Name="labelsPanel" Grid.Column="0"/>
             <StackPanel x:Name="textBoxPanel" Grid.Column="1"/>
-            <DataGrid x:Name="dataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True"/>
+            <DataGrid x:Name="dataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" PreviewKeyDown="dataGrid_PreviewKeyDown"/>
         </Grid>
     </Grid>
 </Page>

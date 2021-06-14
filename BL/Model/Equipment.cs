@@ -11,19 +11,16 @@ namespace BL.Model
 
         public virtual ICollection<Subject> Subjects { get; set; }
         public virtual ICollection<Classroom> Classrooms { get; set; }
+        public virtual ICollection<SpecialEquipment> SpecialEquipment { get; set; }
 
         public Equipment() { }
 
-        public Equipment(List<object> list)
+        public Equipment(string name, int numberOfSeats)
         {
-            var name = list[0].ToString();
-            if (!int.TryParse(list[1].ToString(), out int numberOfSeats))
-                throw new ArgumentException("Вы ввели не число!", nameof(numberOfSeats));
-
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Название оборудования - пусто.");
+                throw new ArgumentNullException(nameof(name), "Вы не ввели название оборудования.");
             if (numberOfSeats <= 0)
-                throw new ArgumentException("Количество сидений оборудования меньше либо равно нулю.");
+                throw new ArgumentException("Вы ввели неправильное количество мест (меньше нуля).", nameof(numberOfSeats));
 
             Name = name;
             NumberOfSeats = numberOfSeats;
@@ -31,23 +28,20 @@ namespace BL.Model
 
         public override string ToString()
         {
-            return $"{Name}";
+            return Name;
         }
 
         public override bool Equals(object obj)
         {
             if (obj is Equipment)
             {
-                // Позже сюда можно добавить другие условия.
+                var another = obj as Equipment;
 
-                var el = obj as Equipment;
-                if (el.NumberOfSeats == NumberOfSeats)
+                if (another.Name == Name)
                     return true;
-                else
-                    return false;
             }
-            else
-                return false;
+
+            return false;
         }
     }
 }

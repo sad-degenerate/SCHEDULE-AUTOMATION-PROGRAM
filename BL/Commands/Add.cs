@@ -2,13 +2,13 @@
 
 namespace BL.Commands
 {
-    public static class Update<T>
+    public static class Add<T>
     {
-        public static void UpdateTable(T item)
+        public static void AddNew(T item)
         {
             using (var context = new MyDbContext())
             {
-                context.Entry(item).State = EntityState.Modified;
+                context.Entry(item).State = EntityState.Added;
                 context.SaveChanges();
             }
         }

@@ -51,46 +51,87 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Commands\Add.cs" />
     <Compile Include="Commands\Delete.cs" />
-    <Compile Include="Commands\Insert.cs" />
+    <Compile Include="Insert.cs" />
+    <Compile Include="Commands\CheckForExistence.cs" />
+    <Compile Include="Commands\NamesToObjects.cs" />
     <Compile Include="Commands\Select.cs" />
     <Compile Include="Commands\Update.cs" />
-    <Compile Include="Data.cs" />
-    <Compile Include="Migrations\202105161753518_new_database.cs" />
-    <Compile Include="Migrations\202105161753518_new_database.designer.cs">
-      <DependentUpon>202105161753518_new_database.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202105162301195_double_change.cs" />
-    <Compile Include="Migrations\202105162301195_double_change.designer.cs">
-      <DependentUpon>202105162301195_double_change.cs</DependentUpon>
+    <Compile Include="Globals.cs" />
+    <Compile Include="Migrations\202106132214129_new_database_again.cs" />
+    <Compile Include="Migrations\202106132214129_new_database_again.designer.cs">
+      <DependentUpon>202106132214129_new_database_again.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Model\Classroom.cs" />
+    <Compile Include="Model\Day.cs" />
     <Compile Include="Model\Equipment.cs" />
+    <Compile Include="Model\Flow.cs" />
+    <Compile Include="Model\FlowsLoad.cs" />
+    <Compile Include="Model\GroupsInFlow.cs" />
+    <Compile Include="Model\ModelObjectsTypes.cs" />
+    <Compile Include="Model\OptimalityCriterion.cs" />
+    <Compile Include="Model\SpecialEquipmentInEquipment.cs" />
+    <Compile Include="Model\SubgroupsInGroup.cs" />
+    <Compile Include="Model\SubgroupsInLessonFrames.cs" />
+    <Compile Include="Model\SubgroupsInLessons.cs" />
     <Compile Include="Model\Lesson.cs" />
     <Compile Include="Model\Group.cs" />
-    <Compile Include="Model\GroupsLoad.cs" />
     <Compile Include="Model\LessonFrame.cs" />
-    <Compile Include="Model\LessonTime.cs" />
-    <Compile Include="Model\Load.cs" />
+    <Compile Include="Model\SpecialEquipment.cs" />
+    <Compile Include="Model\Subgroup.cs" />
     <Compile Include="Model\Subject.cs" />
     <Compile Include="Model\Teacher.cs" />
     <Compile Include="Model\TeachersLoad.cs" />
+    <Compile Include="Model\SubjectType.cs" />
     <Compile Include="MyDbContext.cs" />
+    <Compile Include="OnStart.cs" />
     <Compile Include="OptimalityCheck.cs" />
+    <Compile Include="ProgressBarHelper.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Schedule.cs" />
+    <Compile Include="ScheduleFrame.cs" />
+    <Compile Include="Shuffles.cs" />
+    <Compile Include="UserInputToDB.cs" />
+    <Compile Include="WordTable.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202105161753518_new_database.resx">
-      <DependentUpon>202105161753518_new_database.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202105162301195_double_change.resx">
-      <DependentUpon>202105162301195_double_change.cs</DependentUpon>
+    <COMReference Include="Microsoft.Office.Core">
+      <Guid>{2DF8D04C-5BFA-101B-BDE5-00AA0044DE52}</Guid>
+      <VersionMajor>2</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="Microsoft.Office.Interop.Word">
+      <Guid>{00020905-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>8</VersionMajor>
+      <VersionMinor>5</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+    <COMReference Include="VBIDE">
+      <Guid>{0002E157-0000-0000-C000-000000000046}</Guid>
+      <VersionMajor>5</VersionMajor>
+      <VersionMinor>3</VersionMinor>
+      <Lcid>0</Lcid>
+      <WrapperTool>primary</WrapperTool>
+      <Isolated>False</Isolated>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Migrations\202106132214129_new_database_again.resx">
+      <DependentUpon>202106132214129_new_database_again.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -7,7 +7,7 @@
       mc:Ignorable="d" 
       d:DesignHeight="450" d:DesignWidth="800"
       Title="FillingFields"
-      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
+      xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes" xmlns:data="clr-namespace:System.Data;assembly=System.Data">
 
     <Grid>
         <Grid.ColumnDefinitions>
@@ -15,7 +15,7 @@
             <ColumnDefinition Width="2*"/>
         </Grid.ColumnDefinitions>
 
-        <TreeView x:Name="treeView" Grid.Column="0" Style="{StaticResource MaterialDesignTreeView}" SelectedItemChanged="treeViewSelectedItemChanged" FontSize="20"/>
+        <TreeView x:Name="treeView" Grid.Column="0" Style="{StaticResource MaterialDesignTreeView}" SelectedItemChanged="treeViewSelectedItemChanged"/>
 
         <Grid Grid.Column="1">
             <Grid.ColumnDefinitions>
@@ -29,7 +29,7 @@
 
             <StackPanel x:Name="labelsPanel" Grid.Column="0"/>
             <StackPanel x:Name="textBoxPanel" Grid.Column="1"/>
-            <DataGrid x:Name="dataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" IsReadOnly="True"/>
+            <DataGrid x:Name="dataGrid" Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" CanUserAddRows="False" PreviewKeyDown="dataGrid_PreviewKeyDown"/>
         </Grid>
     </Grid>
 </Page>

@@ -8,107 +8,157 @@ namespace BL
 {
     public class Schedule
     {
-        public Dictionary<Lesson, int> results = new Dictionary<Lesson, int>();
+        public List<Lesson> MostOptimalitySchedule { get; private set; }
+        public List<SubgroupsInLessons> SubgroupsInLessons { get; private set; }
 
-        public void Start()
+        private double _optimality;
+
+        private List<LessonFrame> lessonFrames;
+
+        public Schedule()
         {
-            var groupsLoads = Select.GroupsLoads();
+            lessonFrames = Select.LessonFrames().OrderBy(x => x.FreedoomOfLocation).ToList();
+        }
 
-            foreach (var groupLoad in groupsLoads)
+        public void Create()
+        {
+            foreach (var lesson in Select.Lessons())
+                Delete<Lesson>.DeleteFromTable(lesson);
+            foreach (var subgroupInLesson in Select.SubgroupsInLessons())
+                Delete<SubgroupsInLessons>.DeleteFromTable(subgroupInLesson);
+
+            for (var i = 0; i < 1; i++)
             {
-                var teachersLoads = Select.TeachersLoads().Where(x => x.SubjectId == groupLoad.SubjectId);
-                foreach (var teacherLoad in teachersLoads)
+                Make();
+
+                var optimality = OptimalityCheck.Check(Select.Lessons(), Select.SubgroupsInLessons());
+
+                if (MostOptimalitySchedule == null || optimality > _optimality)
                 {
-                    if (teacherLoad.Load - groupLoad.Load >= 0)
-                    {
-                        teacherLoad.Load -= groupLoad.Load;
-                        groupLoad.Load = 0;
-                    }
-                    else if (groupLoad.Load - teacherLoad.Load >= 0)
-                    {
-                        groupLoad.Load -= teacherLoad.Load;
-                        teacherLoad.Load = 0;
-                    }
-                    else
-                        throw new ArgumentException("Пока не доработано корректное распределение множества учителей.");
+                    MostOptimalitySchedule = Select.Lessons();
+                    SubgroupsInLessons = Select.SubgroupsInLessons();
+                    _optimality = optimality;
+                }
 
-                    var createingList = new List<object>()
-                    {
-                        groupLoad.Subject,
-                        teacherLoad.Teacher,
-                        groupLoad.Group
-                    };
+                foreach (var lesson in Select.Lessons())
+                    Delete<Lesson>.DeleteFromTable(lesson);
+                foreach (var subgroupInLesson in Select.SubgroupsInLessons())
+                    Delete<SubgroupsInLessons>.DeleteFromTable(subgroupInLesson);
+            }
 
-                    Insert.LessonFrames(createingList);
+            ProgressBarHelper.ProgressBarEvent(100);
+        }
+
+        private void Make()
+        {
+            for (var lessonFrame = 0; lessonFrame < lessonFrames.Count; lessonFrame++)
+            {
+                MakeOneLessonFrame(lessonFrame);
+            }
+        }
+
+        private void MakeOneLessonFrame(int lessonFrame)
+        {
+            var days = Select.Days();
+            days = Shuffles<Day>.Shuffle(days);
+            for (var day = 0; day < days.Count; day++)
+            {
+                var classrooms = Select.Classrooms().Where(x => x.EquipmentId == lessonFrames[lessonFrame].Subject.EquipmentId).ToList();
+                classrooms = Shuffles<Classroom>.Shuffle(classrooms);
+                foreach (var classroom in classrooms)
+                {
+                    if (SelectClassroom(classroom, lessonFrame, days[day]) == true)
+                    {
+                        return;
+                    }
                 }
             }
 
-            CheckEveryLesson();
+            throw new ArgumentException($"Не удалось подобрать аудиторию. {lessonFrames[lessonFrame].Subject.Name}");
         }
 
-        private void CheckEveryLesson()
+        private bool SelectClassroom(Classroom classroom, int lessonFrame, Day day)
         {
-            var lessonFrames = Select.LessonFrames();
-
-            foreach (var lessonFrame in lessonFrames)
+            for (var lessonTime = 1; lessonTime <= Globals.MaxLessonsInDay; lessonTime++)
             {
-                double classroomsCount = 0;
-                foreach (var classroom in Select.Classrooms())
-                    if (classroom.Equipment.Equals(lessonFrame.Subject.Equipment))
-                        classroomsCount += 1;
-
-                double teachersCount = Select.TeachersLoads().Where(tl => tl.SubjectId == lessonFrame.SubjectId).Count();
-                double groupsCount = Select.GroupsLoads().Where(gl => gl.SubjectId == lessonFrame.SubjectId).Count();
-
-                lessonFrame.FreedoomOfLocation = classroomsCount / (teachersCount * groupsCount);
+                if (Check(classroom.Id, day.Id, lessonTime, lessonFrame))
+                {
+                    CreateLesson(lessonFrames[lessonFrame], classroom.Id, day.Id, lessonTime);
+                    return true;
+                }
             }
 
-            Update<LessonFrame>.UpdateTable(lessonFrames);
-
-            CheckOptimality();
+            return false;
         }
 
-        private List<LessonFrame> Sort()
+        private void CreateLesson(LessonFrame lessonFrame, int classroomId, int dayId, int lessonTime)
         {
-            var lessonsFrames = Select.LessonFrames();
-            return lessonsFrames.OrderBy(x => x.FreedoomOfLocation).ToList();
-        }
+            var lesson = new Lesson(lessonFrame.SubjectId, lessonFrame.TeacherId, classroomId, dayId, lessonTime);
+            Insert<Lesson>.InsertOriginal(lesson, Select.Lessons());
 
-        private void CheckOptimality()
-        {
-            var lessonsFames = Sort();
-            var result = new Dictionary<Lesson, int>();
-
-            foreach (var lessonFrame in lessonsFames)
+            var subgroupsInLessonFrames = Select.SubgroupsInLessonFrames().Where(x => x.LessonFrameId == lessonFrame.Id);
+            foreach (var subgroupInLessonFrame in subgroupsInLessonFrames)
             {
-                foreach (var classroom in Select.Classrooms())
-                    foreach (var lessonTime in Select.LessonTimes())
-                    {
-                        var list = new List<object>()
-                        {
-                            lessonTime,
-                            lessonFrame.Subject,
-                            lessonFrame.Teacher,
-                            lessonFrame.Group,
-                            classroom
-                        };
+                var subgroupInLesson = new SubgroupsInLessons(subgroupInLessonFrame.SubgroupId, lesson.Id);
+                Insert<SubgroupsInLessons>.InsertOriginal(subgroupInLesson, Select.SubgroupsInLessons());
+            }
+        }
 
-                        var param = new int[]
-                        {
-                            10, 20
-                        };
+        private bool Check(int classroomId, int dayId, int lessonTime, int lessonFrame)
+        {
+            if (IsClassroomBusy(classroomId, dayId, lessonTime) == true)
+                return false;
+            if (IsTeacherBusy(lessonFrames[lessonFrame].TeacherId, dayId, lessonTime) == true)
+                return false;
 
-                        Insert.Lessons(list);
+            var subgroups = Select.SubgroupsInLessonFrames().Where(x => x.LessonFrameId == lessonFrames[lessonFrame].Id).ToList();
+            if (IsSubgroupsBusy(subgroups, dayId, lessonTime))
+                return false;
 
-                        var lesson = new Lesson(list);
+            return true;
+        }
 
-                        // Параметры будут описаны в UI.
-                        var optimalityCheck = new OptimalityCheck(lesson, param);
-                        result.Add(lesson, optimalityCheck.Optimality);
-                    }
+        private bool IsClassroomBusy(int classroomId, int dayId, int lessonTime)
+        {
+            var lesson = Select.Lessons().Where(x => x.ClassroomId == classroomId)
+                .Where(x => x.DayId == dayId).Where(x => x.LessonTime == lessonTime).FirstOrDefault();
+
+            if (lesson == null)
+                return false;
+            else
+                return true;
+        }
+
+        private bool IsTeacherBusy(int teacherId, int dayId, int lessonTime)
+        {
+            var lesson = Select.Lessons().Where(x => x.TeacherId == teacherId)
+                .Where(x => x.DayId == dayId).Where(x => x.LessonTime == lessonTime).FirstOrDefault();
+
+            if (lesson == null)
+                return false;
+            else
+                return true;
+        }
+
+        private bool IsSubgroupsBusy(List<SubgroupsInLessonFrames> subgroups, int dayId, int lessonTime)
+        {
+            var lessons = Select.Lessons().Where(x => x.DayId == dayId).Where(x => x.LessonTime == lessonTime);
+            var subgroupsId = new List<int>();
+            foreach (var subgroup in subgroups)
+                if (subgroupsId.Contains(subgroup.SubgroupId) == false)
+                    subgroupsId.Add(subgroup.Id);
+
+            foreach (var lesson in lessons)
+            {
+                var subgroupsInLesson = Select.SubgroupsInLessons().Where(x => x.LessonId == lesson.Id);
+                foreach (var subgroup in subgroupsInLesson)
+                {
+                    if (subgroupsId.Contains(subgroup.Id))
+                        return true;
+                }
             }
 
-            results = result;
+            return false;
         }
     }
 }

@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:UI"
         mc:Ignorable="d"
         xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
-        Title="Главное окно" Height="500" Width="1000">
+        Title="Главное окно" Height="500" Width="1000"
+        Loaded="Window_Loaded">
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition/>
@@ -25,7 +26,8 @@
         <Button Grid.Column="1" Grid.Row="0" Content="Ввести учебный план" 
                 x:Name="btnInputSyllabus" Click="btnInputSyllabus_Click"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
-        <Button Grid.Column="2" Grid.Row="0" Content="Предпочтения и ограничения"
+        <Button Grid.Column="2" Grid.Row="0" Content="Критерии оптимальности"
+                x:Name="btnOptimalityCriterions" Click="btnOptimalityCriterions_Click"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"/>
         <Button Grid.Column="3" Grid.Row="0" Content="Составить расписание"
                 HorizontalAlignment="Stretch" VerticalAlignment="Stretch"

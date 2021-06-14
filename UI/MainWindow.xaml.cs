@@ -1,23 +1,21 @@
 ﻿using BL;
 using BL.Commands;
 using BL.Model;
-using System.Collections.Generic;
-using System.Linq;
+using System;
+using System.Threading;
+using System.Threading.Tasks;
 using System.Windows;
 using UI.Pages;
+using UI.Utility;
 
 namespace UI
 {
-    /// <summary>
-    /// Логика взаимодействия для MainWindow.xaml
-    /// </summary>
     public partial class MainWindow : Window
     {
         public MainWindow()
         {
             InitializeComponent();
 
-            // TODO: Переписать.
             var s = Select.Subjects();
         }
 
@@ -31,26 +29,72 @@ namespace UI
             MainFrame.Content = new Syllabus();
         }
 
-        private void btnMakeSchedule_Click(object sender, RoutedEventArgs e)
+        private void MainButtonsActivityOff()
         {
+            btnFillingFileds.IsEnabled = false;
+            btnInputSyllabus.IsEnabled = false;
+            btnOptimalityCriterions.IsEnabled = false;
+            btnMakeSchedule.IsEnabled = false;
+        }
+
+        private void MainButtonsActivityOn()
+        {
+            btnFillingFileds.IsEnabled = true;
+            btnInputSyllabus.IsEnabled = true;
+            btnOptimalityCriterions.IsEnabled = true;
+            btnMakeSchedule.IsEnabled = true;
+        }
+
+        private async void btnMakeSchedule_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new SchedulePage();
+            MainButtonsActivityOff();
+            ProgressBarHelper.ProgressBarEvent(10);
+
+            DeleteOldData();
+
+            try
+            {
+                Task task = Task.Run(() => MakeSchedule());
+                await task.ContinueWith(x => MainButtonsActivityOn());
+            }
+            catch (Exception ex)
+            {
+                //MessageBox.Show(ex.Message);
+                MainButtonsActivityOn();
+            }
+        }
+
+        private void MakeSchedule()
+        {
+            ProgressBarHelper.ProgressBarEvent(20);
+            ScheduleFrame.MakeScheduleFrame();
             var schedule = new Schedule();
+            schedule.Create();
+            WordTable.Lesson(schedule.MostOptimalitySchedule, schedule.SubgroupsInLessons);
+        }
 
-            schedule.Start();
-
-            string str1 = "";
+        private static void DeleteOldData()
+        {
             foreach (var lessonFrame in Select.LessonFrames())
-                str1 += $"{lessonFrame}\n";
+                Delete<LessonFrame>.DeleteFromTable(lessonFrame);
+            foreach (var sub in Select.SubgroupsInLessonFrames())
+                Delete<SubgroupsInLessonFrames>.DeleteFromTable(sub);
 
+            foreach (var lesson in Select.Lessons())
+                Delete<Lesson>.DeleteFromTable(lesson);
+            foreach (var sub in Select.SubgroupsInLessons())
+                Delete<SubgroupsInLessons>.DeleteFromTable(sub);
+        }
 
-            string str2 = "";
-            foreach (var val in schedule.results)
-                str2 += $"{val.Value}\n";
+        private void Window_Loaded(object sender, RoutedEventArgs e)
+        {
+            OnStart.Start();
+        }
 
-            MessageBox.Show(str1);
-            MessageBox.Show(str2);
-
-            Delete<LessonFrame>.DeleteFromTable(Select.LessonFrames());
-            Delete<Lesson>.DeleteFromTable(Select.Lessons());
+        private void btnOptimalityCriterions_Click(object sender, RoutedEventArgs e)
+        {
+            MainFrame.Content = new OptimalityCriterions();
         }
     }
 }

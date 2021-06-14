@@ -2,158 +2,112 @@
 using BL.Commands;
 using BL.Model;
 using System;
+using System.ComponentModel;
+using System.Data;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using UI.Utility;
 
 namespace UI.Pages
 {
-    /// <summary>
-    /// Логика взаимодействия для FillingFields.xaml
-    /// </summary>
     public partial class FillingFields : Page
     {
+        private DataRowView _editingRow;
+
         public FillingFields()
         {
             InitializeComponent();
 
-            treeView.ItemsSource = Data.Classes;
+            treeView.ItemsSource = Globals.Classes.Keys;
+        }
+
+        private void Changing(object sender, PropertyChangedEventArgs e)
+        {
+            _editingRow = dataGrid.CurrentItem as DataRowView;
+            EditingDataGrid();
+        }
+
+        private void AddTextBoxToScene(string text)
+        {
+            var tbx = AddingItemsHelper.CreateTextBox(text);
+            labelsPanel.Children.Add(tbx.Item1);
+            textBoxPanel.Children.Add(tbx.Item2);
+        }
+
+        private void AddComboBoxToScene(string name, ComboBox box)
+        {
+            var cbx = AddingItemsHelper.CreateComboBox(box, name);
+            labelsPanel.Children.Add(cbx.Item1);
+            textBoxPanel.Children.Add(cbx.Item2);
         }
 
         private void Teachers()
         {
-            var tbx = AddingItemsHelper.CreateTextBox("ФИО учителя:");
-            labelsPanel.Children.Add(tbx.Item1);
-            textBoxPanel.Children.Add(tbx.Item2);
-        }
-
-        private void TeachersAdd(object sender, EventArgs e)
-        {
-            try
-            {
-                Insert.Teachers(DataListFromControlList.CreateList(textBoxPanel));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            AddTextBoxToScene("ФИО учителя: ");
         }
 
         private void Classrooms()
         {
-            var tbx = AddingItemsHelper.CreateTextBox("Название аудитории:");
-            labelsPanel.Children.Add(tbx.Item1);
-            textBoxPanel.Children.Add(tbx.Item2);
+            AddTextBoxToScene("Название аудитории:");
 
-            var box = new NewComboBox<Equipment>();
-            var cbx = AddingItemsHelper.CreateComboBox(box.CreateComboBox(Select.Equipment()), "Оборудование:");
-            labelsPanel.Children.Add(cbx.Item1);
-            textBoxPanel.Children.Add(cbx.Item2);
-        }
-
-        private void ClassroomsAdd(object sender, EventArgs e)
-        {
-            try
-            {
-                Insert.Classrooms(DataListFromControlList.CreateList(textBoxPanel));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            } 
+            var ncb = new NewComboBox<Equipment>();
+            var box = ncb.CreateComboBox(Select.Equipment());
+            AddComboBoxToScene("Оборудование:", box);
         }
 
         private void Equipment()
         {
-            var tbx = AddingItemsHelper.CreateTextBox("Название:");
-            labelsPanel.Children.Add(tbx.Item1);
-            textBoxPanel.Children.Add(tbx.Item2);
+            AddTextBoxToScene("Название:");
 
-            tbx = AddingItemsHelper.CreateTextBox("Количество сидений:");
-            labelsPanel.Children.Add(tbx.Item1);
-            textBoxPanel.Children.Add(tbx.Item2);
+            AddTextBoxToScene("Количество сидений:");
+
+            var ncb = new NewComboBox<SpecialEquipment>();
+            var box = ncb.CreateCheckBoxComboBox(Select.SpecialEquipment());
+            AddComboBoxToScene("Специальное оборудование:", box);
         }
 
-        private void EquipmentAdd(object sender, EventArgs e)
+        private void Flows()
         {
-            try
-            {
-                Insert.Equipment(DataListFromControlList.CreateList(textBoxPanel));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }      
+            AddTextBoxToScene("Название:");
         }
 
         private void Groups()
         {
-            var tbx = AddingItemsHelper.CreateTextBox("Название:");
-            labelsPanel.Children.Add(tbx.Item1);
-            textBoxPanel.Children.Add(tbx.Item2);
+            AddTextBoxToScene("Название:");
 
-            tbx = AddingItemsHelper.CreateTextBox("Количество учеников:");
-            labelsPanel.Children.Add(tbx.Item1);
-            textBoxPanel.Children.Add(tbx.Item2);
+            var ncb = new NewComboBox<Flow>();
+            var box = ncb.CreateComboBox(Select.Flows());
+            AddComboBoxToScene("Поток:", box);
         }
 
-        private void GroupsAdd(object sender, EventArgs e)
+        private void SpecialEquipment()
         {
-            try
-            {
-                Insert.Groups(DataListFromControlList.CreateList(textBoxPanel));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
+            AddTextBoxToScene("Название:");
+        }
+
+        private void Subgroups()
+        {
+            AddTextBoxToScene("Название:");
+
+            AddTextBoxToScene("Количество студентов:");
+
+            var ncb = new NewComboBox<Group>();
+            var box = ncb.CreateComboBox(Select.Groups());
+            AddComboBoxToScene("Группа:", box);
         }
 
         private void Subjects()
         {
-            var tbx = AddingItemsHelper.CreateTextBox("Название:");
-            labelsPanel.Children.Add(tbx.Item1);
-            textBoxPanel.Children.Add(tbx.Item2);
+            AddTextBoxToScene("Название:");
 
-            var box = new NewComboBox<Equipment>();
-            var cbx = AddingItemsHelper.CreateComboBox(box.CreateComboBox(Select.Equipment()), "Оборудование:");
-            labelsPanel.Children.Add(cbx.Item1);
-            textBoxPanel.Children.Add(cbx.Item2);
-        }
+            var ncb = new NewComboBox<Equipment>();
+            var box = ncb.CreateComboBox(Select.Equipment());
+            AddComboBoxToScene("Оборудование:", box);
 
-        private void SubjectsAdd(object sender, EventArgs e)
-        {
-            try
-            {
-                Insert.Subjects(DataListFromControlList.CreateList(textBoxPanel));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void LessonTimeAdd(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                Insert.LessonTimes(DataListFromControlList.CreateList(textBoxPanel));
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show(ex.Message);
-            }
-        }
-
-        private void LessonTime()
-        {
-            var tpr = AddingItemsHelper.CreateTimePicker("Начало:");
-            labelsPanel.Children.Add(tpr.Item1);
-            textBoxPanel.Children.Add(tpr.Item2);
-
-            tpr = AddingItemsHelper.CreateTimePicker("Конец:");
-            labelsPanel.Children.Add(tpr.Item1);
-            textBoxPanel.Children.Add(tpr.Item2);
+            var ncb2 = new NewComboBox<SubjectType>();
+            box = ncb2.CreateComboBox(Select.SubjectTypes());
+            AddComboBoxToScene("Тип предмета:", box);
         }
 
         private void treeViewSelectedItemChanged(object sender, RoutedPropertyChangedEventArgs<object> e)
@@ -162,90 +116,168 @@ namespace UI.Pages
             textBoxPanel.Children.Clear();
 
             var res = new Button();
-            res.VerticalAlignment = VerticalAlignment.Bottom;
+            ResultButtonStyle(ref res);
 
-            var marg = res.Margin;
-            marg.Top = 20;
-            res.Margin = marg;
+            var value = Globals.Classes[treeView.SelectedItem.ToString()];
+            AddEvent(ref res, value);
+            BuildScene(value);            
 
-            res.Content = "Добавить";
-
-            switch (treeView.SelectedItem.ToString())
-            {
-                case "Teachers":
-                    Teachers();
-                    res.Click += TeachersAdd;
-                    dataGrid.ItemsSource = Select.Teachers();
-                    break;
-
-                case "Classrooms":
-                    Classrooms();
-                    res.Click += ClassroomsAdd;
-                    dataGrid.ItemsSource = Select.Classrooms();
-                    break;
-
-                case "Equipment":
-                    Equipment();
-                    res.Click += EquipmentAdd;
-                    dataGrid.ItemsSource = Select.Equipment();
-                    break;
-
-                case "Groups":
-                    Groups();
-                    res.Click += GroupsAdd;
-                    dataGrid.ItemsSource = Select.Groups();
-                    break;
-
-                case "Subjects":
-                    Subjects();
-                    res.Click += SubjectsAdd;
-                    dataGrid.ItemsSource = Select.Subjects();
-                    break;
-
-                case "Lesson time":
-                    LessonTime();
-                    res.Click += LessonTimeAdd;
-                    dataGrid.ItemsSource = Select.LessonTimes();
-                    break;
-
-                default:
-                    return;
-            }
+            UpdateDataGrid(value);
 
             res.Click += Update;
             textBoxPanel.Children.Add(res);
         }
 
-        private void Update(object sender, RoutedEventArgs e)
+        private void ResultButtonStyle(ref Button btn)
         {
-            switch (treeView.SelectedItem.ToString())
+            btn.VerticalAlignment = VerticalAlignment.Bottom;
+
+            var marg = btn.Margin;
+            marg.Top = 20;
+            btn.Margin = marg;
+
+            btn.Content = "Добавить / Изменить";
+        }
+
+        private void BuildScene(ModelObjectsTypes sender)
+        {
+            switch (sender)
             {
-                case "Teachers":
-                    dataGrid.ItemsSource = Select.Teachers();
+                case ModelObjectsTypes.teacher:
+                    Teachers();
                     break;
 
-                case "Classrooms":
-                    dataGrid.ItemsSource = Select.Classrooms();
+                case ModelObjectsTypes.classroom:
+                    Classrooms();
                     break;
 
-                case "Equipment":
-                    dataGrid.ItemsSource = Select.Equipment();
+                case ModelObjectsTypes.equipment:
+                    Equipment();
                     break;
 
-                case "Groups":
-                    dataGrid.ItemsSource = Select.Groups();
+                case ModelObjectsTypes.group:
+                    Groups();
                     break;
 
-                case "Subjects":
-                    dataGrid.ItemsSource = Select.Subjects();
+                case ModelObjectsTypes.subject:
+                    Subjects();
                     break;
 
-                case "Lesson time":
-                    dataGrid.ItemsSource = Select.LessonTimes();
+
+                case ModelObjectsTypes.flow:
+                    Flows();
+                    break;
+
+                case ModelObjectsTypes.subgroup:
+                    Subgroups();
+                    break;
+
+                case ModelObjectsTypes.specialEquipment:
+                    SpecialEquipment();
                     break;
 
                 default:
                     return;
+            }
+        }
+
+        private void AddNewItem(object sender, EventArgs e)
+        {
+            try
+            {
+                UserInputToDB.Insert(DataListFromControlList.CreateList(textBoxPanel),
+                    Globals.Classes[treeView.SelectedItem.ToString()]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+        }
+
+        private void AddEvent(ref Button btn, ModelObjectsTypes sender)
+        {
+            btn.Click += AddNewItem;
+        }
+
+        private void Update(object sender, RoutedEventArgs e)
+        {
+            UpdateDataGrid(Globals.Classes[treeView.SelectedItem.ToString()]);
+        }
+
+        private void UpdateDataGrid(ModelObjectsTypes key)
+        {
+            try
+            {
+                switch (key)
+                {
+                    case ModelObjectsTypes.teacher:
+                        dataGrid.ItemsSource = DataGridFilling.Teachers().AsDataView();
+                        break;
+
+                    case ModelObjectsTypes.classroom:
+                        dataGrid.ItemsSource = DataGridFilling.Classrooms().AsDataView();
+                        break;
+
+                    case ModelObjectsTypes.equipment:
+                        dataGrid.ItemsSource = DataGridFilling.Equipment().AsDataView();
+                        break;
+
+                    case ModelObjectsTypes.group:
+                        dataGrid.ItemsSource = DataGridFilling.Groups().AsDataView();
+                        break;
+
+                    case ModelObjectsTypes.subject:
+                        dataGrid.ItemsSource = DataGridFilling.Subjects().AsDataView();
+                        break;
+
+                    case ModelObjectsTypes.flow:
+                        dataGrid.ItemsSource = DataGridFilling.Flows().AsDataView();
+                        break;
+
+                    case ModelObjectsTypes.subgroup:
+                        dataGrid.ItemsSource = DataGridFilling.Subgroups().AsDataView();
+                        break;
+
+                    case ModelObjectsTypes.specialEquipment:
+                        dataGrid.ItemsSource = DataGridFilling.SpecialEquipment().AsDataView();
+                        break;
+
+                    default:
+                        return;
+                }
+
+                for (var i = 0; i < dataGrid.Items.Count; i++)
+                {
+                    ((DataRowView)dataGrid.Items[i]).PropertyChanged += Changing;
+                }
+            }
+            catch { }
+        }
+
+        private void EditingDataGrid()
+        {
+            try
+            {
+                var edit = new DataGridEditing(_editingRow);
+                edit.EditDataGrid(Globals.Classes[treeView.SelectedItem.ToString()]);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
+            finally
+            {
+                UpdateDataGrid(Globals.Classes[treeView.SelectedItem.ToString()]);
+            }
+        }
+
+        private void dataGrid_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.Key == Key.Delete)
+            {
+                var index = dataGrid.SelectedIndex;
+                var row = dataGrid.Items[index] as DataRowView;
+                DataGridDeleting.Delete(int.Parse(row["ID"].ToString()), Globals.Classes[treeView.SelectedItem.ToString()]);
             }
         }
     }

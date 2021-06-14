@@ -3,21 +3,20 @@ using System.Collections.Generic;
 
 namespace BL.Model
 {
-    public class Teacher
+    public class Flow
     {
         public int Id { get; set; }
         public string Name { get; set; }
 
-        public virtual ICollection<Lesson> Lessons { get; set; }
-        public virtual ICollection<TeachersLoad> TeachersLoads { get; set; }
-        public virtual ICollection<LessonFrame> LessonFrames { get; set; }
+        public ICollection<Group> Groups { get; set; }
+        public ICollection<LessonFrame> LessonFrames { get; set; }
 
-        public Teacher() { }
+        public Flow() { }
 
-        public Teacher(string name)
+        public Flow(string name)
         {
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Вы не ввели ФИО преподавателя.");
+                throw new ArgumentNullException(nameof(name), "Вы не ввели название потока.");
 
             Name = name;
         }
@@ -29,9 +28,9 @@ namespace BL.Model
 
         public override bool Equals(object obj)
         {
-            if (obj is Teacher)
+            if (obj is Flow)
             {
-                var another = obj as Teacher;
+                var another = obj as Flow;
 
                 if (another.Name == Name)
                     return true;

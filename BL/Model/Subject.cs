@@ -11,26 +11,40 @@ namespace BL.Model
         public int EquipmentId { get; set; }
         public virtual Equipment Equipment { get; set; }
 
+        public int SubjectTypeId { get; set; }
+        public virtual SubjectType SubjectType { get; set; }
+
         public virtual ICollection<Lesson> Lessons { get; set; }
         public virtual ICollection<LessonFrame> LessonFrames { get; set; }
 
         public Subject() { }
 
-        public Subject(List<object> list)
+        public Subject(string name, int equipmentId, int typeId)
         {
-            var name = list[0].ToString();
-            var equipment = list[1] as Equipment;
-
             if (string.IsNullOrWhiteSpace(name))
-                throw new ArgumentNullException(nameof(name), "Название предмета - пусто.");
+                throw new ArgumentNullException(nameof(name), "Вы не ввели название предмета.");
 
             Name = name;
-            EquipmentId = equipment.Id;
+            EquipmentId = equipmentId;
+            SubjectTypeId = typeId;
         }
 
         public override string ToString()
         {
-            return $"{Name}";
+            return Name;
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (obj is Subject)
+            {
+                var another = obj as Subject;
+
+                if (another.Name == Name && another.SubjectTypeId == SubjectTypeId)
+                    return true;
+            }
+
+            return false;
         }
     }
 }

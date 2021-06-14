@@ -7,13 +7,13 @@ namespace BL.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.4.4")]
-    public sealed partial class double_change : IMigrationMetadata
+    public sealed partial class new_database_again : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(double_change));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(new_database_again));
         
         string IMigrationMetadata.Id
         {
-            get { return "202105162301195_double_change"; }
+            get { return "202106132214129_new_database_again"; }
         }
         
         string IMigrationMetadata.Source
